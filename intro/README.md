@@ -84,8 +84,6 @@ Output:
 }
 ```
 
-> NOTE:
-> 
-> The address of the user that stored the source code is: **wasm1tr2etcsklkc802qflx9qeh78pfs8tvar52e4s4**.
-> 
+> NOTES:<br/>
+> The address of the user that stored the source code is: **wasm1tr2etcsklkc802qflx9qeh78pfs8tvar52e4s4**.<br/>
 > The identifier of the source code is **1**.  
