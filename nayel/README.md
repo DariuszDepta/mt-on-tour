@@ -164,3 +164,18 @@ deps.querier.query_wasm_contract_info(contract_addr);
 ```
 
 inside `instantiate` entry-point returns an error and this should be fixed in `wasmd`.
+
+Calling
+
+```rust
+let code_id = 1u64;
+deps.querier.query_wasm_code_info(code_id);
+```
+
+inside `instantiate` entry-point works in `wasmd`, but one has to know the `code_id`.
+The `code_id` for a contract may only be retrieved using `query_wasm_contract_info`
+but this does not work in `wasmd`.
+
+Calling `query_wasm_smart` inside `instantiate` function for the instantiated contract  
+should return an error as it does now, because the contract is not yet fully instantiated.
+
