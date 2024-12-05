@@ -153,3 +153,14 @@ Output:
   }
 }
 ```
+
+## Final notes
+
+Calling
+
+```rust
+let contract_addr = env.contract.address;
+deps.querier.query_wasm_contract_info(contract_addr);
+```
+
+inside `instantiate` entry-point returns an error and this should be fixed in `wasmd`.
