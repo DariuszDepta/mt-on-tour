@@ -6,6 +6,7 @@ members = [
   "blocks",
   "counter",
   "counter-sv",
+  "intro",
 ]
 
 [workspace.package]

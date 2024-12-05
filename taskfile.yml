@@ -48,7 +48,8 @@ tasks:
   schema:
     desc: Builds the schema
     cmds:
-      - cmd: mkdir ./schemas
+      - cmd: mkdir -p ./schemas
+      - cmd: cargo run --bin schema-intro && mv ./schema ./schemas/schema-intro
       - cmd: cargo run --bin schema-counter && mv ./schema ./schemas/schema-counter
       - cmd: cargo run --bin schema-counter-sv && mv ./schema ./schemas/schema-counter-sv
 
