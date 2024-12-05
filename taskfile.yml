@@ -12,6 +12,7 @@ tasks:
   clean:
     desc: Deletes all compilation artifacts
     cmds:
+      - cmd: rm -rf ./schemas
       - cmd: cargo clean
 
   clippy:
@@ -24,10 +25,20 @@ tasks:
     cmds:
       - cmd: cargo +nightly llvm-cov --workspace --branch --html
 
+  cov-open:
+    desc: Generates code coverage and opens report in browser
+    cmds:
+      - cmd: cargo +nightly llvm-cov --workspace --branch --open
+
   cov-mt:
     desc: Generates code coverage for MultiTest
     cmds:
       - cmd: cargo +nightly llvm-cov --dep-coverage cw-multi-test --workspace --branch --html
+
+  cov-mt-open:
+    desc: Generates code coverage for MultiTest and opens report in browser
+    cmds:
+      - cmd: cargo +nightly llvm-cov --dep-coverage cw-multi-test --workspace --branch --open
 
   fmt:
     desc: Formats the code
@@ -37,7 +48,9 @@ tasks:
   schema:
     desc: Builds the schema
     cmds:
-      - cmd: cargo run --bin schema
+      - cmd: mkdir ./schemas
+      - cmd: cargo run --bin schema-counter && mv ./schema ./schemas/schema-counter
+      - cmd: cargo run --bin schema-counter-sv && mv ./schema ./schemas/schema-counter-sv
 
   test:
     desc: Runs all tests in debug mode
