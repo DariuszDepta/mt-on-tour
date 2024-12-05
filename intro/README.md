@@ -161,7 +161,7 @@ $ wasmd q wasm contract wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9
 Get the metadata of the contract's code:
 
 ```shell
-$ wasmd q wasm code-info 1 -o json | jq 
+$ wasmd query wasm code-info 1 -o json | jq 
 ```
 
 ```json
