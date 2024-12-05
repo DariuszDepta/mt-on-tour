@@ -1,3 +1,5 @@
+#![allow(unexpected_cfgs)]
+
 use crate::msg::{CounterInitMsg, CounterResponse};
 use cosmwasm_std::{Response, StdResult};
 use cw_storage_plus::Item;

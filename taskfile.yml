@@ -23,22 +23,22 @@ tasks:
   cov:
     desc: Generates code coverage
     cmds:
-      - cmd: cargo +nightly llvm-cov --workspace --branch --html
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --workspace --branch --html
 
   cov-open:
     desc: Generates code coverage and opens report in browser
     cmds:
-      - cmd: cargo +nightly llvm-cov --workspace --branch --open
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --workspace --branch --open
 
   cov-mt:
     desc: Generates code coverage for MultiTest
     cmds:
-      - cmd: cargo +nightly llvm-cov --dep-coverage cw-multi-test --workspace --branch --html
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --dep-coverage cw-multi-test --workspace --branch --html
 
   cov-mt-open:
     desc: Generates code coverage for MultiTest and opens report in browser
     cmds:
-      - cmd: cargo +nightly llvm-cov --dep-coverage cw-multi-test --workspace --branch --open
+      - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --dep-coverage cw-multi-test --workspace --branch --open
 
   fmt:
     desc: Formats the code
@@ -65,9 +65,9 @@ tasks:
   wasm:
     desc: Builds the Wasm binary
     cmds:
-      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib --workspace
 
   wasm-debug:
     desc: Builds the Wasm binary in debug mode
     cmds:
-      - cmd: cargo build --target wasm32-unknown-unknown --lib
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --target wasm32-unknown-unknown --lib --workspace

@@ -1,5 +1,5 @@
-use counter::contract::sv::mt::{CodeId, CounterContractProxy};
-use counter::msg::CounterInitMsg;
+use counter_sv::contract::sv::mt::{CodeId, CounterContractProxy};
+use counter_sv::msg::CounterInitMsg;
 use sylvia::cw_multi_test::IntoAddr;
 use sylvia::multitest::App;
 
