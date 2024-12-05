@@ -3,6 +3,7 @@
 resolver = "2"
 
 members = [
+  "blocks",
   "counter",
 ]
 
@@ -14,3 +15,11 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [workspace.dependencies]
+cosmwasm-schema = "2"
+cosmwasm-std = { version = "2" }
+cw-storage-plus = "2"
+schemars = "0.8"
+serde = "1.0"
+cw-multi-test = { version = "2", features = ["staking", "stargate", "cosmwasm_2_1"] }
+
+

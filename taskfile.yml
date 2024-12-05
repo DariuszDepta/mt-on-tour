@@ -1,0 +1,60 @@
+version: '3'
+
+silent: true
+
+tasks:
+
+  build:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build --workspace
+
+  clean:
+    desc: Deletes all compilation artifacts
+    cmds:
+      - cmd: cargo clean
+
+  clippy:
+    desc: Runs clippy for all targets
+    cmds:
+      - cmd: cargo +stable clippy --workspace --all-targets
+
+  cov:
+    desc: Generates code coverage
+    cmds:
+      - cmd: cargo +nightly llvm-cov --workspace --branch --html
+
+  cov-mt:
+    desc: Generates code coverage for MultiTest
+    cmds:
+      - cmd: cargo +nightly llvm-cov --dep-coverage cw-multi-test --workspace --branch --html
+
+  fmt:
+    desc: Formats the code
+    cmds:
+      - cmd: cargo +stable fmt
+
+  schema:
+    desc: Builds the schema
+    cmds:
+      - cmd: cargo run --bin schema
+
+  test:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable test --workspace
+
+  testn:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable nextest run --workspace
+
+  wasm:
+    desc: Builds the Wasm binary
+    cmds:
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+
+  wasm-debug:
+    desc: Builds the Wasm binary in debug mode
+    cmds:
+      - cmd: cargo build --target wasm32-unknown-unknown --lib

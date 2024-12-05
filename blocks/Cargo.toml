@@ -1,0 +1,10 @@
+[package]
+name = "blocks"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+cosmwasm-std = { workspace = true }
+
+[dev-dependencies]
+cw-multi-test = { workspace = true }

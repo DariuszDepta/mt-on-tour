@@ -1,6 +1,6 @@
 [package]
 name = "counter"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -13,11 +13,11 @@ crate-type = ["cdylib", "rlib"]
 library = []
 
 [dependencies]
-cosmwasm-schema = "2"
-cosmwasm-std = { version = "2" }
-cw-storage-plus = "2"
-schemars = "0.8"
-serde = "1.0"
+cosmwasm-schema = { workspace = true }
+cosmwasm-std = { workspace = true }
+cw-storage-plus = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
 
 [dev-dependencies]
-cw-multi-test = { version = "2", features = ["cosmwasm_2_0"] }
+cw-multi-test = { workspace = true }
