@@ -1,0 +1,16 @@
+[workspace]
+
+resolver = "2"
+
+members = [
+  "counter",
+]
+
+[workspace.package]
+version = "1.0.0"
+authors = ["Dariusz Depta <depta@engos.de>"]
+repository = "https://github.com/DariuszDepta/mt-on-tour.git"
+license = "MIT OR Apache-2.0"
+edition = "2021"
+
+[workspace.dependencies]
