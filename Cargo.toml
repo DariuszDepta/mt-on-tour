@@ -3,6 +3,7 @@
 resolver = "2"
 
 members = [
+    "app-builder",
     "blocks",
     "counter",
     "counter-sv",
@@ -16,6 +17,7 @@ authors = ["Dariusz Depta <depta@engos.de>"]
 repository = "https://github.com/DariuszDepta/mt-on-tour.git"
 license = "MIT OR Apache-2.0"
 edition = "2021"
+publish = false
 
 [workspace.dependencies]
 cosmwasm-schema = "2"
