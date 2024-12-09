@@ -1,8 +1,9 @@
 [package]
 name = "blocks"
-version = "1.0.0"
-edition = "2021"
-publish = false
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
 
 [dependencies]
 cosmwasm-std = { workspace = true }

@@ -1,8 +1,9 @@
 [package]
 name = "nayel"
-version = "1.0.0"
-edition = "2021"
-publish = false
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
