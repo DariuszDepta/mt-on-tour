@@ -8,7 +8,68 @@ Examples of using addresses in **`MultiTest`**. There are following address cate
 
 ## User address
 
+#### Blockchain behavior
 
+On blockchain, user addresses are derived from the public key of the user as follows:
+- bytes of the public key are hashed using SHA-256,
+- resulting bytes of SHA-256 hash are hashed again using RIPEMD-160,
+- resulting bytes are converted to Bech32 format with blockchain's prefix.
+
+Example:
+
+1. Public key encoded in Base64, as displayed by the command `chaind keys --list`, where `chaind` is the CLI daemon of the chain:
+
+    ```text
+    - address: cosmos10w323vd8hm8adp3kus6qp99yrs86mj4kh2ruhg
+      name: alice
+      pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AqAWno6jFXEqE3MC5v9BObuBkHIyrRORXDtNReuPHo/s"}'
+      type: local
+    ```
+    
+    Public key = `AqAWno6jFXEqE3MC5v9BObuBkHIyrRORXDtNReuPHo/s`.
+
+2. Conversion to SHA-256 gives the following bytes (hex):
+
+    ```text
+    e4ce72c758f2296e557800b4db6470eca3cdb6459aa7cfcd6d38a7a95c8db1d5
+    ```
+   
+3. Conversion using RIPEMD-160 of the SHA-256 hash (hex):
+
+    ```text
+    7ba2a8b1a7becfd68636e4340094a41c0fadcab6
+    ```
+   
+4. Conversion to Bech32 format with `cosmos` prefix:
+
+    ```text
+    cosmos10w323vd8hm8adp3kus6qp99yrs86mj4kh2ruhg
+    ```
+
+#### MultiTest behaviour 
+
+Generating a pair of keys for each user address used in tests in **`MultiTest`** could be little cumbersome.  
+User addresses in **`MultiTest`** are created based on any string (user alias) provided by the test writer.
+Provided string is hashed using SHA-256 and then converted to Bech32 with blockchain's prefix.  
+
+
+Example:
+
+1. User alias:
+
+    ```text
+    alice
+    ```
+2. Hashing with SHA-256 (hex):
+
+    ```text
+    2bd806c97f0e00af1a1fc3328fa763a9269723c8db8fac4f93af71db186d6e90
+    ``` 
+3. Conversion to Bech32 format with `cosmos` prefix:
+
+    ```text
+    cosmos190vqdjtlpcq27xslcveglfmr4ynfwg7gmw86cnun4acakxrdd6gq7g6jwn
+    ``` 
 
 ### Legend
 
