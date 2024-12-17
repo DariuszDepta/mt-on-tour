@@ -2,9 +2,9 @@
 
 Examples of using addresses in **`MultiTest`**. There are following address categories:
 
-- user address,
-- contract address,
-- validator address.
+- [user address](#user-address),
+- [contract address](#contract-address),
+- [validator address](#validator-address).
 
 ## User address
 
@@ -184,3 +184,11 @@ Examples of using addresses in **`MultiTest`**. There are following address cate
 │ 6 │ MockApiBech32m │          -            │       -        │ NB_PREFIX │ NB_BECH32M │ T │
 └───┴────────────────┴───────────────────────┴────────────────┴───────────┴────────────┴───┘
 ```
+
+## Contract address
+
+(WIP)
+
+## Validator address
+
+(WIP)
