@@ -1,4 +1,16 @@
-# Legend
+# Addresses
+
+Examples of using addresses in **`MultiTest`**. There are following address categories:
+
+- user address,
+- contract address,
+- validator address.
+
+## User address
+
+
+
+### Legend
 
 - CW_PREFIX = `"cosmwasm"`;
 - CW_BECH32 = `"cosmwasm1fsgzj6t7udv8zhf6zj32mkqhcjcpv52yph5qsdcl0qt94jgdckqs2g053y"`;
@@ -7,7 +19,7 @@
 - NB_BECH32 = `"nebula1fsgzj6t7udv8zhf6zj32mkqhcjcpv52yph5qsdcl0qt94jgdckqsvsqrvp"`;
 - NB_BECH32M = `"nebula1fsgzj6t7udv8zhf6zj32mkqhcjcpv52yph5qsdcl0qt94jgdckqsevs0fr"`;
 
-# Full matrix
+### Full matrix
 
 ```text
 ┌───┬────────────────┬───────────────────────┬────────────────┬───────────┬────────────┬───┐
@@ -78,7 +90,7 @@
 └───┴────────────────┴───────────────────────┴────────────────┴───────────┴────────────┴───┘
 ```
 
-# Matrix reduced to existing tests cases 
+### Matrix reduced to existing tests cases 
 
 ```text
 ┌───┬────────────────┬───────────────────────┬────────────────┬───────────┬────────────┬───┐
@@ -128,7 +140,7 @@
 └───┴────────────────┴───────────────────────┴────────────────┴───────────┴────────────┴───┘
 ```
 
-# Matrix reduced to tests cases included in documentation 
+### Matrix reduced to tests cases included in documentation 
 
 ```text
 ┌───┬────────────────┬───────────────────────┬────────────────┬───────────┬────────────┬───┐
