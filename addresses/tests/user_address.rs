@@ -29,3 +29,22 @@ fn generating_wasm_user_address_should_work() {
     // Make sure the generated address is equal to the expected one.
     assert_eq!("wasm1rzenuvw8pxnf8cpw9jxyx3u8s9ngt5v5870gnz", user_address);
 }
+
+fn pub_key_to_bech32(pub_key: &str, prefix: &str) -> String {
+    let pub_key_bytes = general_purpose::STANDARD.decode(pub_key).unwrap();
+    let sha256_hash = Sha256::digest(&pub_key_bytes);
+    let ripemd160_hash = Ripemd160::digest(&sha256_hash);
+    encode::<Bech32>(Hrp::parse(prefix).unwrap(), ripemd160_hash.as_slice()).unwrap()
+}
+
+#[test]
+fn generating_cosmos_user_address_should_work() {
+    assert_eq!(
+        "cosmos10w323vd8hm8adp3kus6qp99yrs86mj4kh2ruhg",
+        pub_key_to_bech32("AqAWno6jFXEqE3MC5v9BObuBkHIyrRORXDtNReuPHo/s", "cosmos")
+    );
+    assert_eq!(
+        "cosmos1k5auppj33lptp6dlhauqnmqxnw6h8hd06j2j2m",
+        pub_key_to_bech32("AoB7xZiSlrra2IxWhFR3iLR2+Ksa49MefTk8GfYesp95", "cosmos")
+    );
+}
