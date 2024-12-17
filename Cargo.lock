@@ -3,6 +3,14 @@
 version = 4
 
 [[package]]
+name = "addresses"
+version = "1.0.0"
+dependencies = [
+ "cosmwasm-std",
+ "cw-multi-test",
+]
+
+[[package]]
 name = "ahash"
 version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"

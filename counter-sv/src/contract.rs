@@ -1,10 +1,8 @@
-#![allow(unexpected_cfgs)]
-
 use crate::msg::{CounterInitMsg, CounterResponse};
 use cosmwasm_std::{Response, StdResult};
 use cw_storage_plus::Item;
 use sylvia::contract;
-use sylvia::ctx::{ExecCtx, InstantiateCtx,QueryCtx};
+use sylvia::ctx::{ExecCtx, InstantiateCtx, QueryCtx};
 
 pub struct CounterContract {
     pub count: Item<u8>,
@@ -13,7 +11,6 @@ pub struct CounterContract {
 #[cfg_attr(not(feature = "library"), sylvia::entry_points)]
 #[contract]
 impl CounterContract {
-    #[allow(clippy::new_without_default)]
     pub const fn new() -> Self {
         Self {
             count: Item::new("count"),
