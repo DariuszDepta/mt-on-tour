@@ -1,8 +1,24 @@
+use cw_multi_test::no_init;
+
 #[test]
 fn rule_1() {
     use cw_multi_test::App;
 
     let app = App::default();
+
+    let addr = app.api().addr_make("owner");
+
+    assert_eq!(
+        "cosmwasm1fsgzj6t7udv8zhf6zj32mkqhcjcpv52yph5qsdcl0qt94jgdckqs2g053y",
+        addr.as_str()
+    );
+}
+
+#[test]
+fn rule_1a() {
+    use cw_multi_test::AppBuilder;
+
+    let app = AppBuilder::default().build(no_init);
 
     let addr = app.api().addr_make("owner");
 
