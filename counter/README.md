@@ -115,6 +115,16 @@ Output:
 ```
 
 ```shell
+grpcurl -plaintext -d '{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}' localhost:9090 cosmwasm.wasm.v1.Query/SmartContractState | jq .data -r | base64 -d
+```
+
+Output:
+
+```json
+{"value":53}
+```
+
+```shell
 $ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"' -d @data.json
 ```
 
