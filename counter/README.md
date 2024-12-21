@@ -97,3 +97,59 @@ Output:
   }
 }
 ```
+
+```shell
+$ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/wasm/contract/wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d"&data=xxxx'
+```
+
+```shell
+$ grpcurl -plaintext -d '{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}' localhost:9090 cosmwasm.wasm.v1.Query/SmartContractState
+```
+
+Output:
+
+```json
+{
+  "data": "eyJ2YWx1ZSI6NTN9"
+}
+```
+
+```shell
+$ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"' -d @data.json
+```
+
+```shell
+$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/Codes"' | jq
+```
+
+```
+message QuerySmartContractStateRequest {
+  string address = 1;
+  bytes query_data = 2;
+}
+```
+
+```text
+address = wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d
+bytes = InZhbHVlIg==
+```
+
+```text
+Cj93YXNtMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXMwcGhnNGQSDEluWmhiSFZsSWc9PQ==
+```
+
+```text
+$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"&data="Cj93YXNtMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXMwcGhnNGQSByJ2YWx1ZSI="'
+$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"&data=""'
+```
+
+This text:
+```text
+{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}
+```
+
+in base64:
+```text
+eyJhZGRyZXNzIjoid2FzbTE0aGoydGF2cThmcGVzZHd4eGN1NDRydHkzaGg5MHZodWpydmNtc3RsNHpyM3R4bWZ2dzlzMHBoZzRkIiwicXVlcnlfZGF0YSI6IkluWmhiSFZsSWc9PSJ9
+```
+
