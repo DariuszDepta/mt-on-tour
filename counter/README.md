@@ -183,9 +183,11 @@ InZhbHVlIg==
 Because the protobuf definition of the state query looks like this:
 
 ```protobuf
+syntax = "proto3";
+
 message QuerySmartContractStateRequest {
-  required string address = 1;
-  required bytes query_data = 2;
+  string address = 1;
+  bytes query_data = 2;
 }
 ``` 
 
@@ -220,9 +222,11 @@ Output:
 The protobuf definition of the state query looks like this (the same as for gRPC):
 
 ```protobuf
+syntax = "proto3";
+
 message QuerySmartContractStateRequest {
-  required string address = 1;
-  required bytes query_data = 2;
+  string address = 1;
+  bytes query_data = 2;
 }
 ```
 
@@ -305,4 +309,146 @@ Output:
 ```
 
 So as expected, the returned counter value is `53`.
+
+## Protobuf (de)serialized manually
+
+### Serialization
+
+The protobuf definition:
+
+```protobuf
+syntax = "proto3";
+
+message QuerySmartContractStateRequest {
+  string address = 1;
+  bytes query_data = 2;
+}
+```
+
+- `address` value (string): `wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d`.
+- `query_data` value (bytes) `"value"`.
+
+Taken from [protobuf specification](https://protobuf.dev/programming-guides/encoding):
+
+> The “tag” of a record is encoded as a varint formed from the field number and the wire type via the formula `(field_number << 3) | wire_type`.
+> In other words, after decoding the varint representing a field, the low 3 bits tell us the wire type, and the rest of the integer tells us the field number.
+
+The wire-type for strings and bytes is the same: 2 = `0x10`.
+
+So the tag of the first field will be (0000 1010)₂ = `0x0A`,
+and the tag of the second field will be (0001 0010)₂ = `0x12`.
+The length of the address string is 63 bytes = `0x3F`.
+The length of the query data is 7 bytes = `0x07`.
+
+|  Hex | Text | Description                |
+|------|------|----------------------------|
+| `0A` |      | Tag of the first field     |
+| `3F` | 63   | Length of the first field  |
+| `77` | w    | Address letter             |
+| `61` | a    | Address letter             |
+| `73` | s    | Address letter             |
+| `6D` | m    | Address letter             |
+| `31` | 1    | Address letter             |
+| `34` | 4    | Address letter             |
+| `68` | h    | Address letter             |
+| `6A` | j    | Address letter             |
+| `32` | 2    | Address letter             |
+| `74` | t    | Address letter             |
+| `61` | a    | Address letter             |
+| `76` | v    | Address letter             |
+| `71` | q    | Address letter             |
+| `38` | 8    | Address letter             |
+| `66` | f    | Address letter             |
+| `70` | p    | Address letter             |
+| `65` | e    | Address letter             |
+| `73` | s    | Address letter             |
+| `64` | d    | Address letter             |
+| `77` | w    | Address letter             |
+| `78` | x    | Address letter             |
+| `78` | x    | Address letter             |
+| `63` | c    | Address letter             |
+| `75` | u    | Address letter             |
+| `34` | 4    | Address letter             |
+| `34` | 4    | Address letter             |
+| `72` | r    | Address letter             |
+| `74` | t    | Address letter             |
+| `79` | y    | Address letter             |
+| `33` | 3    | Address letter             |
+| `68` | h    | Address letter             |
+| `68` | h    | Address letter             |
+| `39` | 9    | Address letter             |
+| `30` | 0    | Address letter             |
+| `76` | v    | Address letter             |
+| `68` | h    | Address letter             |
+| `75` | u    | Address letter             |
+| `6A` | j    | Address letter             |
+| `72` | r    | Address letter             |
+| `76` | v    | Address letter             |
+| `63` | c    | Address letter             |
+| `6D` | m    | Address letter             |
+| `73` | s    | Address letter             |
+| `74` | t    | Address letter             |
+| `6C` | l    | Address letter             |
+| `34` | 4    | Address letter             |
+| `7A` | z    | Address letter             |
+| `72` | r    | Address letter             |
+| `33` | 3    | Address letter             |
+| `74` | t    | Address letter             |
+| `78` | x    | Address letter             |
+| `6D` | m    | Address letter             |
+| `66` | f    | Address letter             |
+| `76` | v    | Address letter             |
+| `77` | w    | Address letter             |
+| `39` | 9    | Address letter             |
+| `73` | s    | Address letter             |
+| `30` | 0    | Address letter             |
+| `70` | p    | Address letter             |
+| `68` | h    | Address letter             |
+| `67` | g    | Address letter             |
+| `34` | 4    | Address letter             |
+| `64` | d    | Address letter             |
+| `12` |      | Tag of the second field    |
+| `07` | 7    | Length of the second field |
+| `22` | "    | Query data byte            |
+| `76` | v    | Query data byte            |
+| `61` | a    | Query data byte            |
+| `6C` | l    | Query data byte            |
+| `75` | u    | Query data byte            |
+| `65` | e    | Query data byte            |
+| `22` | "    | Query data byte            |
+
+So the serialized protobuf in HEX is:
+
+```text
+0A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D667677397330706867346412072276616C756522
+```
+
+### Deserialization
+
+Returned value was: `Cgx7InZhbHVlIjo1M30=` as Base64 encoded bytes.
+
+```shell
+$ echo -n "Cgx7InZhbHVlIjo1M30=" | base64 -d | xxd
+```
+
+In hex: `0a0c7b2276616c7565223a35337d`.
+
+|  Hex | Text | Description                     |
+|------|------|---------------------------------|
+| `0a` |      | Tag of the first field (string) |
+| `0c` |      | Length of the string = 12       |
+| `7b` | {    | Letter of the response          |
+| `22` | "    | Letter of the response          |
+| `76` | v    | Letter of the response          |
+| `61` | a    | Letter of the response          |
+| `6c` | l    | Letter of the response          |
+| `75` | u    | Letter of the response          |
+| `65` | e    | Letter of the response          |
+| `22` | "    | Letter of the response          |
+| `3a` | :    | Letter of the response          |
+| `35` | 5    | Letter of the response          |
+| `33` | 3    | Letter of the response          |
+| `7d` | }    | Letter of the response          |
+
+So the response is JSON string: `{"value":53}`.
 
