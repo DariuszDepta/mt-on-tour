@@ -305,3 +305,4 @@ Output:
 ```
 
 So as expected, the returned counter value is `53`.
+
