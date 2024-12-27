@@ -1,9 +1,31 @@
 # Counter smart contract
 
+## Storing contract on chain
+
 Store the contract code on chain:
 
 ```shell
 $ wasmd tx wasm store ./target/wasm32-unknown-unknown/release/counter.wasm --from alice --chain-id wte --gas 10000000 --keyring-backend=test -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "B48799D8F5EFFD262F4716C6C56783C10371D85ED49AA5E6C45DAD591103EB75",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
 ```
 
 Check if the contract code was stored on chain:
@@ -19,7 +41,7 @@ Output:
   "code_infos": [
     {
       "code_id": "1",
-      "creator": "wasm1fkh6p5vwau79mzqs2qssd0wse72ltk2l8a0u3m",
+      "creator": "wasm1a8y6j9txcfyz6zy5ff0m0xsu3fqyxyy5u2nq2n",
       "data_hash": "D663636B86C09DD6B2D431846E600D62A1E3EDA4641918C8C8E261FB2600D74C",
       "instantiate_permission": {
         "permission": "Everybody",
@@ -34,10 +56,32 @@ Output:
 }
 ```
 
+## Instantiating the contract
+
 Instantiate a contract with initial value set to 0: 
 
 ```shell
 $ wasmd tx wasm instantiate 1 '"zero"' --label my-counter-1 --no-admin --from alice --chain-id wte --keyring-backend=test -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "95330EACCBA9BE9EDD0215BA0558006908853F2A879C949DA7D26DA0DBD4EB76",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
 ```
 
 Check if the contract is instantiated:
@@ -60,6 +104,8 @@ Output:
 }
 ```
 
+## Querying the current counter value
+
 Query the current value of the counter contract (should be 0):
 
 ```shell
@@ -76,10 +122,32 @@ Output:
 }
 ```
 
+## Setting a new counter value
+
 Set the value of the counter to 53:
 
 ```shell
 $ wasmd tx wasm execute wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d '{"set":53}' --from alice --chain-id wte --keyring-backend=test -y -o json | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "189DA916D38E1E338EEFA9F113A31335BCB510923C0407399AB24DFF56D38B0C",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
 ```
 
 Query the current value of the counter contract (should be 53):
@@ -97,6 +165,9 @@ Output:
   }
 }
 ```
+
+
+## Experiments
 
 ```shell
 $ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/wasm/contract/wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d"&data=xxxx'
