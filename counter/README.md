@@ -166,12 +166,30 @@ Output:
 }
 ```
 
+## Querying the counter value using gRPC
 
-## Experiments
+Using `wasmd` there was a string `'"value"'` passed as query data. When using gRPC this string must be encoded as Base64 string, like this:
 
 ```shell
-$ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/wasm/contract/wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d"&data=xxxx'
+$ echo -n '"value"' | base64
 ```
+
+Output:
+
+```text
+InZhbHVlIg==
+```
+
+Because the protobuf definition of the state query looks like this:
+
+```protobuf
+message QuerySmartContractStateRequest {
+  required string address = 1;
+  required bytes query_data = 2;
+}
+``` 
+
+So the full `grpcurl` command looks like this:
 
 ```shell
 $ grpcurl -plaintext -d '{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}' localhost:9090 cosmwasm.wasm.v1.Query/SmartContractState
@@ -185,6 +203,8 @@ Output:
 }
 ```
 
+The output data is encoded as Base64 string, so it can be decoded this way: 
+
 ```shell
 grpcurl -plaintext -d '{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}' localhost:9090 cosmwasm.wasm.v1.Query/SmartContractState | jq .data -r | base64 -d
 ```
@@ -195,19 +215,23 @@ Output:
 {"value":53}
 ```
 
+## Querying the counter value using RPC
+
+The protobuf definition of the state query looks like this:
+
+```protobuf
+message QuerySmartContractStateRequest {
+  required string address = 1;
+  required bytes query_data = 2;
+}
+```
+
 ```shell
 $ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"' -d @data.json
 ```
 
 ```shell
 $ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/Codes"' | jq
-```
-
-```
-message QuerySmartContractStateRequest {
-  string address = 1;
-  bytes query_data = 2;
-}
 ```
 
 ```text
