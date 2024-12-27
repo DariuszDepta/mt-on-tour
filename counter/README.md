@@ -217,7 +217,7 @@ Output:
 
 ## Querying the counter value using RPC
 
-The protobuf definition of the state query looks like this:
+The protobuf definition of the state query looks like this (the same as for gRPC):
 
 ```protobuf
 message QuerySmartContractStateRequest {
@@ -226,35 +226,82 @@ message QuerySmartContractStateRequest {
 }
 ```
 
+In this case the contract address is also `wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d`,
+and the query data is a plain JSON string `"value"`.
+
+After serializing the protobuf to HEX format, the query data is:
+
+```text
+0A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D667677397330706867346412072276616C756522
+```
+
+It is simple to verify by calling:
+
 ```shell
-$ curl -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"' -d @data.json
+$ echo -n "0A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D667677397330706867346412072276616C756522" | xxd -r -p | decode_raw
+``` 
+
+Output:
+
+```text
+1: (63 bytes) "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d"
+2: (7 bytes) '"value"'
 ```
+
+The data for RPC query looks like this:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "102a24e1-5a0b-48c1-8a3d-7a057f7a13ec",
+  "method": "abci_query",
+  "params": {
+    "path": "/cosmwasm.wasm.v1.Query/SmartContractState",
+    "data": "0A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D667677397330706867346412072276616C756522",
+    "height": "0",
+    "prove": false
+  }
+}
+```
+
+When this JSON is saved to file named `data.json`, then the `curl` command looks like this:
 
 ```shell
-$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/Codes"' | jq
+$ curl -s 'http://localhost:26657' --data @data.json | jq
 ```
+
+Output:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "102a24e1-5a0b-48c1-8a3d-7a057f7a13ec",
+  "result": {
+    "response": {
+      "code": 0,
+      "log": "",
+      "info": "",
+      "index": "0",
+      "key": null,
+      "value": "Cgx7InZhbHVlIjo1M30=",
+      "proofOps": null,
+      "height": "4273",
+      "codespace": ""
+    }
+  }
+}
+```
+
+The returned value is a protobuf encoded in Base64:
+
+```shell
+$ echo -n "Cgx7InZhbHVlIjo1M30=" | base64 -d | decode_raw
+```
+
+Output:
 
 ```text
-address = wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d
-bytes = InZhbHVlIg==
+1: (12 bytes) '{"value":53}'
 ```
 
-```text
-Cj93YXNtMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXMwcGhnNGQSDEluWmhiSFZsSWc9PQ==
-```
-
-```text
-$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"&data="Cj93YXNtMTRoajJ0YXZxOGZwZXNkd3h4Y3U0NHJ0eTNoaDkwdmh1anJ2Y21zdGw0enIzdHhtZnZ3OXMwcGhnNGQSByJ2YWx1ZSI="'
-$ curl -s -X GET 'http://0.0.0.0:26657/abci_query?path="/cosmwasm.wasm.v1.Query/SmartContractState"&data=""'
-```
-
-This text:
-```text
-{"address":"wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d","query_data":"InZhbHVlIg=="}
-```
-
-in base64:
-```text
-eyJhZGRyZXNzIjoid2FzbTE0aGoydGF2cThmcGVzZHd4eGN1NDRydHkzaGg5MHZodWpydmNtc3RsNHpyM3R4bWZ2dzlzMHBoZzRkIiwicXVlcnlfZGF0YSI6IkluWmhiSFZsSWc9PSJ9
-```
-
+So as expected, the returned counter value is `53`.

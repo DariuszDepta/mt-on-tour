@@ -1,0 +1,11 @@
+{
+  "jsonrpc": "2.0",
+  "id": "102a24e1-5a0b-48c1-8a3d-7a057f7a13ec",
+  "method": "abci_query",
+  "params": {
+    "path": "/cosmwasm.wasm.v1.Query/SmartContractState",
+    "data": "0A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D667677397330706867346412072276616C756522",
+    "height": "0",
+    "prove": false
+  }
+}
