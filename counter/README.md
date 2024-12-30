@@ -104,6 +104,145 @@ Output:
 }
 ```
 
+## Instantiating the contract with predictable address
+
+After the instantiating message, there is a salt provided as a hex string.
+
+```shell
+$ wasmd tx wasm instantiate2 1 '"zero"' 010203 --label my-counter-2 --no-admin --from alice --chain-id wte --keyring-backend=test -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "51A34B3DD984594E8F046FDC26EC4C3DA4016823130247E1FADFF3B12659F6A4",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
+```
+
+Check if the contract was properly instantiated:
+ 
+```shell
+$ wasmd query wasm list-contract-by-code 1 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "contracts": [
+    "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+    "wasm1l6ug8zcdvejlas0st7qyvz5lv5vm5ppqdzx0mjsk0cgyc6ktsa6sp32c0y"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
+```
+
+A new contract instance was created, with the address `wasm1l6ug8zcdvejlas0st7qyvz5lv5vm5ppqdzx0mjsk0cgyc6ktsa6sp32c0y`.
+
+Creating another instance with different salt should work:
+
+```shell
+$ wasmd tx wasm instantiate2 1 '"zero"' 01020304 --label my-counter-2 --no-admin --from alice --chain-id wte --keyring-backend=test -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "ED77A88F2AF56F0E3CD94A4ADC07B5958C14799B4B9B472470D3BCF27FB15F61",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
+```
+
+Check if the contract was properly instantiated:
+ 
+```shell
+$ wasmd query wasm list-contract-by-code 1 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "contracts": [
+    "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+    "wasm1l6ug8zcdvejlas0st7qyvz5lv5vm5ppqdzx0mjsk0cgyc6ktsa6sp32c0y",
+    "wasm1mwzkakc2j5d57fwpgy20ptwj9h5h6kgytn900wkwtxdcgg2n2hpq4r2x55"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
+```
+
+A new instance was created, with the address `wasm1mwzkakc2j5d57fwpgy20ptwj9h5h6kgytn900wkwtxdcgg2n2hpq4r2x55`.
+
+Instantiating a contract with the same salt should fail:
+
+```shell
+$ wasmd tx wasm instantiate2 1 '"zero"' 010203 --label my-counter-2 --no-admin --from alice --chain-id wte --keyring-backend=test -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "806457A6B112070129019C2276949B2BF2D7AA9A20E14C9781B194A8CBA8972C",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
+```
+
+Let's check the reported error:
+
+```shell
+$ wasmd query tx "806457A6B112070129019C2276949B2BF2D7AA9A20E14C9781B194A8CBA8972C" -o json | jq .raw_log
+```
+
+Output:
+
+```json
+"failed to execute message; message index: 0: contract address already exists, try a different combination of creator, checksum and salt: duplicate"
+```
+
 ## Querying the current counter value
 
 Query the current value of the counter contract (should be 0):
