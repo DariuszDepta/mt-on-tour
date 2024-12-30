@@ -4,6 +4,7 @@ use bech32::{encode, Bech32, Hrp};
 use cw_multi_test::{no_init, AppBuilder, MockApiBech32};
 use ripemd::Ripemd160;
 use sha2::{Digest, Sha256};
+use std::fmt::Write;
 
 #[test]
 fn generating_wasm_user_address_should_work() {
@@ -25,7 +26,7 @@ fn generating_wasm_user_address_should_work() {
     );
 
     // Calculate RIPEMD-160 hash of the SHA-256 output.
-    let ripemd160_hash = Ripemd160::digest(&sha256_hash);
+    let ripemd160_hash = Ripemd160::digest(sha256_hash);
     assert_eq!(
         "18b33e31c709a693e02e2c8c434787816685d194",
         format!("{:x}", ripemd160_hash)
@@ -44,14 +45,14 @@ fn pub_key_to_bech32(pub_key: &str, prefix: &str) -> String {
     let pub_key_bytes = general_purpose::STANDARD.decode(pub_key).unwrap();
     println!(
         "   Pub key (hex) = {}",
-        pub_key_bytes
-            .iter()
-            .map(|v| format!("{:02x}", v))
-            .collect::<String>()
+        pub_key_bytes.iter().fold("".to_string(), |mut acc, s| {
+            let _ = write!(&mut acc, "{}", s);
+            acc
+        })
     );
     let sha256_hash = Sha256::digest(&pub_key_bytes);
     println!("   SHA-256 (hex) = {:x}", sha256_hash);
-    let ripemd160_hash = Ripemd160::digest(&sha256_hash);
+    let ripemd160_hash = Ripemd160::digest(sha256_hash);
     println!("RIPEMD-160 (hex) = {:x}", ripemd160_hash);
     let addr = encode::<Bech32>(Hrp::parse(prefix).unwrap(), ripemd160_hash.as_slice()).unwrap();
     println!("          Bech32 = {}\n", addr);
