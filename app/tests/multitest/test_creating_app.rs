@@ -23,3 +23,28 @@ fn app_new_no_init_should_work() {
     assert_eq!(1571797419, block.time.seconds());
     assert_eq!("cosmos-testnet-14002", block.chain_id);
 }
+
+#[test]
+fn app_new_init_should_work() {
+    use cosmwasm_std::coin;
+    use cw_multi_test::App;
+
+    let me = "me";
+    let my_funds = vec![coin(20, "BTC")];
+
+    let app = App::new(|router, api, storage| {
+        let my_address = api.addr_make(me);
+        router
+            .bank
+            .init_balance(storage, &my_address, my_funds)
+            .unwrap();
+    });
+
+    let my_coins = app
+        .wrap()
+        .query_all_balances(app.api().addr_make(me))
+        .unwrap();
+
+    assert_eq!(1, my_coins.len());
+    assert_eq!("20BTC", my_coins[0].to_string());
+}
