@@ -28,7 +28,7 @@ Output:
 }
 ```
 
-Check if the contract code was stored on chain:
+Check if the contract code was properly stored on chain:
 
 ```shell
 $ wasmd query wasm list-code -o json | jq
@@ -84,7 +84,7 @@ Output:
 }
 ```
 
-Check if the contract is instantiated:
+Check if the contract was properly instantiated:
  
 ```shell
 $ wasmd query wasm list-contract-by-code 1 -o json | jq
