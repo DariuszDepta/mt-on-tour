@@ -28,6 +28,153 @@ Output:
 }
 ```
 
+Check the transaction details:
+
+```hell
+$ wasmd query tx C85F6130FF5B9ED97D33808D41FB66DA46941B1E3CFCA626DC23FD10BC3BB944 -o json | jq
+```
+
+```json
+{
+  "height": "1737",
+  "txhash": "C85F6130FF5B9ED97D33808D41FB66DA46941B1E3CFCA626DC23FD10BC3BB944",
+  "codespace": "",
+  "code": 0,
+  "data": "124E0A262F636F736D7761736D2E7761736D2E76312E4D736753746F7265436F6465526573706F6E7365122408011220D663636B86C09DD6B2D431846E600D62A1E3EDA4641918C8C8E261FB2600D74C",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "10000000",
+  "gas_used": "1679923",
+  "tx": {
+    "@type": "/cosmos.tx.v1beta1.Tx",
+    "body": {
+      "messages": [
+        {
+          "@type": "/cosmwasm.wasm.v1.MsgStoreCode",
+          "sender": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "wasm_byte_code": "(the long binary)",
+          "instantiate_permission": null
+        }
+      ],
+      "memo": "",
+      "timeout_height": "0",
+      "extension_options": [],
+      "non_critical_extension_options": []
+    },
+    "auth_info": {
+      "signer_infos": [
+        {
+          "public_key": {
+            "@type": "/cosmos.crypto.secp256k1.PubKey",
+            "key": "AyVadXZEQlVVHaXczz3wBMiJo0+6Ve/EzgWMkq7Gu8qa"
+          },
+          "mode_info": {
+            "single": {
+              "mode": "SIGN_MODE_DIRECT"
+            }
+          },
+          "sequence": "1"
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas_limit": "10000000",
+        "payer": "",
+        "granter": ""
+      },
+      "tip": null
+    },
+    "signatures": [
+      "vhu6C3z59Z6qXX0jwRn5XIqgB9yvGYC91cuhTq8G2MkkzTv7p2u27e88yfGt7YF19H1jGfbI64TqDxPDmMT3OA=="
+    ]
+  },
+  "timestamp": "2025-01-08T13:23:30Z",
+  "events": [
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "fee",
+          "value": "",
+          "index": true
+        },
+        {
+          "key": "fee_payer",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "acc_seq",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e/1",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "signature",
+          "value": "vhu6C3z59Z6qXX0jwRn5XIqgB9yvGYC91cuhTq8G2MkkzTv7p2u27e88yfGt7YF19H1jGfbI64TqDxPDmMT3OA==",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "action",
+          "value": "/cosmwasm.wasm.v1.MsgStoreCode",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "index": true
+        },
+        {
+          "key": "module",
+          "value": "wasm",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "store_code",
+      "attributes": [
+        {
+          "key": "code_checksum",
+          "value": "d663636b86c09dd6b2d431846e600d62a1e3eda4641918c8c8e261fb2600d74c",
+          "index": true
+        },
+        {
+          "key": "code_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    }
+  ]
+}
+```
+
 > NOTE: It looks like the wasm binary is compressed and base64 encoded when in transaction displayed as JSON. 
 
 Check if the contract code was properly stored on chain:

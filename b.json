@@ -1,0 +1,141 @@
+{
+  "height": "2745",
+  "txhash": "6194CA23505ED26509293EDDAA4D2C45C5C75D05893BDED02D3BED1014F1C94A",
+  "codespace": "",
+  "code": 0,
+  "data": "12750A302F636F736D7761736D2E7761736D2E76312E4D7367496E7374616E7469617465436F6E7472616374526573706F6E736512410A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D6676773973307068673464",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "200000",
+  "gas_used": "136975",
+  "tx": {
+    "@type": "/cosmos.tx.v1beta1.Tx",
+    "body": {
+      "messages": [
+        {
+          "@type": "/cosmwasm.wasm.v1.MsgInstantiateContract",
+          "sender": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "admin": "",
+          "code_id": "1",
+          "label": "my-counter-1",
+          "msg": "zero",
+          "funds": []
+        }
+      ],
+      "memo": "",
+      "timeout_height": "0",
+      "extension_options": [],
+      "non_critical_extension_options": []
+    },
+    "auth_info": {
+      "signer_infos": [
+        {
+          "public_key": {
+            "@type": "/cosmos.crypto.secp256k1.PubKey",
+            "key": "AyVadXZEQlVVHaXczz3wBMiJo0+6Ve/EzgWMkq7Gu8qa"
+          },
+          "mode_info": {
+            "single": {
+              "mode": "SIGN_MODE_DIRECT"
+            }
+          },
+          "sequence": "2"
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas_limit": "200000",
+        "payer": "",
+        "granter": ""
+      },
+      "tip": null
+    },
+    "signatures": [
+      "kklp5D3LjhWuBJaTxNkFv/I+iAapXXZeuRS3YEcAarsRo+vMDLlsO+0DcYUHsmbuW3YgTg+WZDHyHzdZjsqWNw=="
+    ]
+  },
+  "timestamp": "2025-01-08T14:48:09Z",
+  "events": [
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "fee",
+          "value": "",
+          "index": true
+        },
+        {
+          "key": "fee_payer",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "acc_seq",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e/2",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "signature",
+          "value": "kklp5D3LjhWuBJaTxNkFv/I+iAapXXZeuRS3YEcAarsRo+vMDLlsO+0DcYUHsmbuW3YgTg+WZDHyHzdZjsqWNw==",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "action",
+          "value": "/cosmwasm.wasm.v1.MsgInstantiateContract",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm15rphnktg928akr6wuh5ppmasanfpgrgq5tru5e",
+          "index": true
+        },
+        {
+          "key": "module",
+          "value": "wasm",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "instantiate",
+      "attributes": [
+        {
+          "key": "_contract_address",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "code_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    }
+  ]
+}
