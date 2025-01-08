@@ -28,6 +28,8 @@ Output:
 }
 ```
 
+> NOTE: It looks like the wasm binary is compressed and base64 encoded when in transaction displayed as JSON. 
+
 Check if the contract code was properly stored on chain:
 
 ```shell
