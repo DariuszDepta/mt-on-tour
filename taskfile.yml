@@ -24,6 +24,7 @@ tasks:
     desc: Generates code coverage
     cmds:
       - cmd: cargo +nightly llvm-cov --no-cfg-coverage --no-cfg-coverage-nightly --workspace --branch --html
+      - cmd: echo "Open report file:///$(pwd)/target/llvm-cov/html/index.html"
 
   cov-open:
     desc: Generates code coverage and opens report in browser

@@ -40,6 +40,7 @@ fn app_new_init_should_work() {
             .unwrap();
     });
 
+    #[allow(deprecated)]
     let my_coins = app
         .wrap()
         .query_all_balances(app.api().addr_make(me))
