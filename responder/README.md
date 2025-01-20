@@ -64,3 +64,79 @@ Output:
 }
 ```
 
+## Check balances
+
+List all keys:
+
+```shell
+$ wasmd keys list --keyring-backend=test --output json | jq
+```
+
+Output:
+
+```json
+[
+  {
+    "name": "alice",
+    "type": "local",
+    "address": "wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam",
+    "pubkey": "{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"AglVqKaCCgzIYtWv1F8zdA83+2EQPaxnkkBHP+WGTaJE\"}"
+  },
+  {
+    "name": "bob",
+    "type": "local",
+    "address": "wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf",
+    "pubkey": "{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"A648j/lfQdPh35IEXkzky/Wo071pSTed5ESomFgEI6RT\"}"
+  },
+  {
+    "name": "cecil",
+    "type": "local",
+    "address": "wasm1dfzjx4n2j6w99zpadw80c37cfv3utncdfu4a8s",
+    "pubkey": "{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"Al7zvtEluFMXofaGtj46zDn8TJWUm+NMBHAjIKSnzCfJ\"}"
+  },
+  {
+    "name": "dave",
+    "type": "local",
+    "address": "wasm1j26ltgh0aazkmlnc7evaz2wkku65qk7ep63gyg",
+    "pubkey": "{\"@type\":\"/cosmos.crypto.secp256k1.PubKey\",\"key\":\"Aru/864qqE94MdiWf9VKPrM9GZY33Ag6Mw4I0u/1yyj6\"}"
+  }
+]
+```
+
+Check the balances for `alice`:
+
+```shell
+$ wasmd query bank balances wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam -o json | jq
+```
+
+Output:
+
+```json
+{
+  "balances": [
+    {
+      "denom": "stake",
+      "amount": "999750000000"
+    }
+  ],
+  "pagination": {
+    "total": "1"
+  }
+}
+```
+
+Check the balances for instantiated contract:
+
+```shell
+$ wasmd query bank balances wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d -o json | jq
+```
+
+Output:
+
+```json
+{
+  "balances": [],
+  "pagination": {}
+}
+```
+
