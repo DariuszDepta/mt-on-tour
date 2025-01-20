@@ -11,6 +11,7 @@ members = [
     "counter-sv",
     "intro",
     "nayel",
+    "responder",
 ]
 
 [workspace.package]
