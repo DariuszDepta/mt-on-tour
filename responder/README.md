@@ -727,3 +727,35 @@ Output:
 > ```json
 > {"type_url":"/cosmos.bank.v1beta1.MsgSendResponse","value":""}
 > ```
+
+## `BankMsg:Burn`
+
+Let's check the current balances for `alice`:
+
+```shell
+$ wasmd query bank balances wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam -o json | jq
+```
+
+Output:
+
+```json
+{
+  "balances": [
+    {
+      "denom": "stake",
+      "amount": "999749999900"
+    }
+  ],
+  "pagination": {
+    "total": "1"
+  }
+}
+```
+
+Now `alice` burns some of her tokens: 
+
+```shell
+$ wasmd tx wasm execute wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d '{"bank_burn":[500, "stake"]}' --from alice --chain-id wte --keyring-backend=test -y -o json | jq
+```
+
+
