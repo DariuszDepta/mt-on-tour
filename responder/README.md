@@ -424,3 +424,306 @@ Output:
 }
 ```
 
+Now, lets send some tokens from the instantiated contract to `bob`:
+
+```shell
+$ wasmd tx wasm execute wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d '{"bank_send":["wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf", 11, "stake"]}' --from alice --chain-id wte --keyring-backend=test -y -o json | jq 
+```
+
+Let's check the balance for `bob`. `bob` should now have 11 tokens more:
+
+```shell
+$ wasmd query bank balances wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf -o json | jq
+```
+
+Output:
+
+```json
+{
+  "balances": [
+    {
+      "denom": "stake",
+      "amount": "1000000000011"
+    }
+  ],
+  "pagination": {
+    "total": "1"
+  }
+}
+```
+
+And the contract should have 11 tokens less:
+
+```shell
+$ wasmd query bank balances wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d -o json | jq
+```
+
+Output:
+
+```json
+{
+  "balances": [
+    {
+      "denom": "stake",
+      "amount": "89"
+    }
+  ],
+  "pagination": {
+    "total": "1"
+  }
+}
+```
+
+Let's check the details of the transaction:
+
+```shell
+$ wasmd q tx A56BDFFC6EC5B5A33D4CEB69569E845BD0108C715C98B76EBE89F272F4A3807A -o json | jq
+```
+
+Output:
+
+```json
+{
+  "height": "681",
+  "txhash": "A56BDFFC6EC5B5A33D4CEB69569E845BD0108C715C98B76EBE89F272F4A3807A",
+  "codespace": "",
+  "code": 0,
+  "data": "128B010A2C2F636F736D7761736D2E7761736D2E76312E4D736745786563757465436F6E7472616374526573706F6E7365125B0A597B226964223A312C226D73675F726573706F6E736573223A5B7B22747970655F75726C223A222F636F736D6F732E62616E6B2E763162657461312E4D736753656E64526573706F6E7365222C2276616C7565223A22227D5D7D",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "200000",
+  "gas_used": "124024",
+  "tx": {
+    "@type": "/cosmos.tx.v1beta1.Tx",
+    "body": {
+      "messages": [
+        {
+          "@type": "/cosmwasm.wasm.v1.MsgExecuteContract",
+          "sender": "wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam",
+          "contract": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "msg": {
+            "bank_send": [
+              "wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf",
+              11,
+              "stake"
+            ]
+          },
+          "funds": []
+        }
+      ],
+      "memo": "",
+      "timeout_height": "0",
+      "extension_options": [],
+      "non_critical_extension_options": []
+    },
+    "auth_info": {
+      "signer_infos": [
+        {
+          "public_key": {
+            "@type": "/cosmos.crypto.secp256k1.PubKey",
+            "key": "AglVqKaCCgzIYtWv1F8zdA83+2EQPaxnkkBHP+WGTaJE"
+          },
+          "mode_info": {
+            "single": {
+              "mode": "SIGN_MODE_DIRECT"
+            }
+          },
+          "sequence": "4"
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas_limit": "200000",
+        "payer": "",
+        "granter": ""
+      },
+      "tip": null
+    },
+    "signatures": [
+      "nRIhaQsdYoZyS7UvYL6NdycqUjY7H+NAFeRE6sEC68dHO3ljPkgcKCJ5JYVFFKmm3LmHYh/8HL3TQNR9FHy6mQ=="
+    ]
+  },
+  "timestamp": "2025-01-20T10:53:31Z",
+  "events": [
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "fee",
+          "value": "",
+          "index": true
+        },
+        {
+          "key": "fee_payer",
+          "value": "wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "acc_seq",
+          "value": "wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam/4",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "signature",
+          "value": "nRIhaQsdYoZyS7UvYL6NdycqUjY7H+NAFeRE6sEC68dHO3ljPkgcKCJ5JYVFFKmm3LmHYh/8HL3TQNR9FHy6mQ==",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "action",
+          "value": "/cosmwasm.wasm.v1.MsgExecuteContract",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm10pmzqzk5tp4893yk8zkc8km3dlurn94pggywam",
+          "index": true
+        },
+        {
+          "key": "module",
+          "value": "wasm",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "attributes": [
+        {
+          "key": "_contract_address",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "coin_spent",
+      "attributes": [
+        {
+          "key": "spender",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "11stake",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "coin_received",
+      "attributes": [
+        {
+          "key": "receiver",
+          "value": "wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "11stake",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "wasm1l2k354gfve93rrjhcnvkaa6f50tucctgchfgmf",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "11stake",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "reply",
+      "attributes": [
+        {
+          "key": "_contract_address",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+And let's take a look into `data` field of this transaction:
+
+```shell
+$ echo -n "128B010A2C2F636F736D7761736D2E7761736D2E76312E4D736745786563757465436F6E7472616374526573706F6E7365125B0A597B226964223A312C226D73675F726573706F6E736573223A5B7B22747970655F75726C223A222F636F736D6F732E62616E6B2E763162657461312E4D736753656E64526573706F6E7365222C2276616C7565223A22227D5D7D" | xxd -p -r | decode_raw
+```
+
+Output:
+
+```text
+2 {
+· 1: (44 bytes) "/cosmwasm.wasm.v1.MsgExecuteContractResponse"
+· 2 {
+· · 1: (89 bytes) '{"id":1,"msg_responses":[{"type_url":"/cosmos.bank.v1beta1.MsgSendResponse","value":""}]}'
+· }
+}
+``` 
+
+> It shows, that the chain, after processing the `BankMsg::Send` message, responds to the contract
+> (in the `reply` entry-point) with `MsgResponse` of value:
+> ```json
+> {"type_url":"/cosmos.bank.v1beta1.MsgSendResponse","value":""}
+> ```
