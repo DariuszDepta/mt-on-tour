@@ -1,5 +1,9 @@
 # Executing `Add` message
 
+## Prerequisities
+
+Recreate the `wasmd` chain.    
+
 ## Store the contract on a chain
 
 ```shell
