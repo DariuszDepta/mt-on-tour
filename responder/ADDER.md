@@ -1,8 +1,6 @@
 # Responder executed as adder
 
-## Store contract on chain
-
-Store the contract code on chain:
+## Store the contract on a chain
 
 ```shell
 $ wasmd tx wasm store ./target/wasm32-unknown-unknown/release/responder.wasm --from alice --chain-id wte --gas 10000000 --keyring-backend=test -o json -y | jq
@@ -38,8 +36,6 @@ Output:
 
 ## Instantiate the contract
 
-Instantiate a new contract: 
-
 ```shell
 $ wasmd tx wasm instantiate 1 '"none"' --label my-responder-1 --no-admin --from alice --chain-id wte --keyring-backend=test -o json -y | jq
 ```
@@ -64,7 +60,7 @@ Output:
 }
 ```
 
-## Execute the adder
+## Execute the `Add` message
 
 Add two numbers: 263 + 87:
 
@@ -92,7 +88,7 @@ Output:
 }
 ```
 
-Let's check the output data from the executed message:
+Check the output data from the executed message (taken from the transaction:
 
 ```shell
 $ wasmd query tx 7382DA8E95FC52BBD35CEE2B4D1CB1A7419357DD89E6DC466280C0654F691D5C -o json | jq -r '.data' | xxd -p -r | decode_raw
@@ -109,4 +105,4 @@ Output:
 }
 ```
 
-> The result is the expected sum: **350**.
+> The result is the expected sum: **350**
