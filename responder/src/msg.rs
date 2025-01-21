@@ -10,9 +10,11 @@ pub enum ResponderInstantiateMessage {
 /// Messages executed on the responder contract.
 #[cw_serde]
 pub enum ResponderExecuteMessage {
-    /// Returns BankMsg::Send as a submessage.
+    /// Adds two unsigned integers and returns the sum.
+    Add(u64, u64),
+    /// Returns submessage BankMsg::Send.
     BankSend(String, u128, String),
-    /// Returns BankMsg::Burn as a submessage.
+    /// Returns submessage BankMsg::Burn.
     BankBurn(u128, String),
 }
 

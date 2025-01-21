@@ -26,8 +26,11 @@ pub fn execute(
     msg: ResponderExecuteMessage,
 ) -> StdResult<Response> {
     Ok(match msg {
+        ResponderExecuteMessage::Add(value1, value2) => {
+            let sum = value1.saturating_add(value2);
+            Response::new().set_data(to_json_binary(&sum)?)
+        }
         ResponderExecuteMessage::BankSend(addr, amount, denom) => {
-            //
             Response::new().add_submessage(reply_always(
                 1,
                 BankMsg::Send {
@@ -38,7 +41,6 @@ pub fn execute(
             ))
         }
         ResponderExecuteMessage::BankBurn(amount, denom) => {
-            //
             Response::new().add_submessage(reply_always(
                 2,
                 BankMsg::Burn {
