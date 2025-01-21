@@ -92,7 +92,7 @@ Output:
 }
 ```
 
-Check the output data from the executed message (taken from the transaction:
+Check the output data from the executed message (taken from the transaction):
 
 ```shell
 $ wasmd query tx 7382DA8E95FC52BBD35CEE2B4D1CB1A7419357DD89E6DC466280C0654F691D5C -o json | jq -r '.data' | xxd -p -r | decode_raw
@@ -109,4 +109,7 @@ Output:
 }
 ```
 
-> The result is the expected sum: **350**
+## Conclusions
+
+> - The result is the expected sum: **350**.
+> - The returned message type is `/cosmwasm.wasm.v1.MsgExecuteContractResponse`.

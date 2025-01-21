@@ -3,7 +3,7 @@ use crate::msg::{
 };
 use cosmwasm_std::{
     entry_point, to_json_binary, BankMsg, Binary, Coin, CosmosMsg, Deps, DepsMut, Env, MessageInfo,
-    Reply, ReplyOn, Response, StdResult, SubMsg, SubMsgResponse, SubMsgResult, Uint128,
+    Reply, ReplyOn, Response, StdResult, SubMsg, SubMsgResponse, SubMsgResult, Uint128, WasmMsg,
 };
 
 /// Entry-point for instantiating the responder contract.
@@ -29,6 +29,18 @@ pub fn execute(
         ResponderExecuteMessage::Add(value1, value2) => {
             let sum = value1.saturating_add(value2);
             Response::new().set_data(to_json_binary(&sum)?)
+        }
+        ResponderExecuteMessage::WasmMsgExecuteAdd(contract_addr, value1, value2) => {
+            let msg = ResponderExecuteMessage::Add(value1, value2);
+            Response::new().add_submessage(reply_always(
+                1,
+                WasmMsg::Execute {
+                    contract_addr,
+                    msg: to_json_binary(&msg)?,
+                    funds: vec![],
+                }
+                .into(),
+            ))
         }
         ResponderExecuteMessage::BankSend(addr, amount, denom) => {
             Response::new().add_submessage(reply_always(

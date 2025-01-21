@@ -12,9 +12,11 @@ pub enum ResponderInstantiateMessage {
 pub enum ResponderExecuteMessage {
     /// Adds two unsigned integers and returns the sum.
     Add(u64, u64),
-    /// Returns submessage BankMsg::Send.
+    /// Returns submessage `WasmMsg::Execute` with `Add` message.
+    WasmMsgExecuteAdd(String, u64, u64),
+    /// Returns submessage `BankMsg::Send`.
     BankSend(String, u128, String),
-    /// Returns submessage BankMsg::Burn.
+    /// Returns submessage `BankMsg::Burn`.
     BankBurn(u128, String),
 }
 
