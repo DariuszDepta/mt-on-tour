@@ -1,4 +1,4 @@
-# Responder executed as adder
+# Executing `Add` message
 
 ## Store the contract on a chain
 
