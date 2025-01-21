@@ -108,7 +108,7 @@ Output:
 2 {
 · 1: (44 bytes) "/cosmwasm.wasm.v1.MsgExecuteContractResponse"
 · 2 {
-· · 1: (105 bytes) '{"id":1,"msg_responses":[{"type_url":"/cosmwasm.wasm.v1.MsgExecuteContractResponse","value":"CgMzNTA="}]}'
+· · 1: (105 bytes) '{"id":3,"msg_responses":[{"type_url":"/cosmwasm.wasm.v1.MsgExecuteContractResponse","value":"CgMzNTA="}]}'
 · }
 }
 ```
