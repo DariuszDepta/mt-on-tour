@@ -116,7 +116,7 @@ Output:
 Check the returned value:
 
 ```shell
-$ echo -n "CgMzNTA=" | base64 -d
+$ echo -n "CgMzNTA=" | base64 -d | decode_raw
 ```
 
 Output:
@@ -129,4 +129,11 @@ Output:
 
 > - The returned message type is `/cosmwasm.wasm.v1.MsgExecuteContractResponse`.
 > - The returned submessage type is also `/cosmwasm.wasm.v1.MsgExecuteContractResponse`.
-> - The returned submessage value is Base64 encoded integer **350**.
+> - The returned submessage value is Base64 encoded protobuf containing JSON string **"350"**.
+
+It looks like the value encoding is the following:
+
+- Input: 350 (u64 integer).
+- Conversion to JSON string: "350".
+- Encoding with protobuf: 0a03333530 (hex)
+- Encoding with Base64: CgMzNTA=
