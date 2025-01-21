@@ -33,7 +33,7 @@ pub fn execute(
         ResponderExecuteMessage::WasmMsgExecuteAdd(contract_addr, value1, value2) => {
             let msg = ResponderExecuteMessage::Add(value1, value2);
             Response::new().add_submessage(reply_always(
-                1,
+                3,
                 WasmMsg::Execute {
                     contract_addr,
                     msg: to_json_binary(&msg)?,

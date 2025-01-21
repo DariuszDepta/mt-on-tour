@@ -1,13 +1,13 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::MsgResponse;
 
-/// Instantiating messages of the responder contract.
+/// Messages instantiating the contract.
 #[cw_serde]
 pub enum ResponderInstantiateMessage {
     None,
 }
 
-/// Messages executed on the responder contract.
+/// Messages executed by the contract.
 #[cw_serde]
 pub enum ResponderExecuteMessage {
     /// Adds two unsigned integers and returns the sum.
@@ -20,6 +20,7 @@ pub enum ResponderExecuteMessage {
     BankBurn(u128, String),
 }
 
+/// Messages querying the contract.
 #[cw_serde]
 #[derive(QueryResponses)]
 pub enum ResponderQueryMessage {
