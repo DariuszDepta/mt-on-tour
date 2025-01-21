@@ -10,7 +10,9 @@ pub enum ResponderInstantiateMessage {
 /// Messages executed on the responder contract.
 #[cw_serde]
 pub enum ResponderExecuteMessage {
+    /// Returns BankMsg::Send as a submessage.
     BankSend(String, u128, String),
+    /// Returns BankMsg::Burn as a submessage.
     BankBurn(u128, String),
 }
 
