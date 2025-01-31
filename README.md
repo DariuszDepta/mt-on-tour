@@ -10,3 +10,7 @@ Examples of tests written using [CosmWasm MultiTest](https://crates.io/crates/cw
 | [blocks](./blocks)          | Handling blocks in MultiTest.                |
 
 To configure the `wasmd` node, follow [these instructions](./WASMD.md).
+
+### Some references
+
+- https://github.com/Rhaki/cw-iper-test
