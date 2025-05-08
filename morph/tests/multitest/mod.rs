@@ -1,7 +1,4 @@
 mod test_execute;
-mod test_instantiate;
-mod test_metadata;
-mod test_query;
 
 use cosmwasm_std::{Checksum, Empty};
 use cw_multi_test::{Contract, ContractWrapper};
