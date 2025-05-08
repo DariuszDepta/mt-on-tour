@@ -51,6 +51,7 @@ fn execute_should_work() {
 
     // Data returned from the `execute` entry-point must not be empty.
     assert!(response.data.is_some());
+
     // Check the binary content.
     eq_binary(
         "7b226e616d65223a22417070697573222c22686569676874223a3139322c22616765223a33387d",
@@ -69,6 +70,7 @@ fn execute_should_work() {
 
     // Data returned from the `execute` entry-point must not be empty.
     assert!(response.data.is_some());
+
     // Check the binary content.
     eq_binary(
         "7b226e616d65223a224d6172637573222c22616765223a32347d",
@@ -87,6 +89,7 @@ fn execute_should_work() {
 
     // Data returned from the `execute` entry-point must not be empty.
     assert!(response.data.is_some());
+
     // Check the binary content.
     eq_binary(
         "7b226e616d65223a2254696265726961227d",
