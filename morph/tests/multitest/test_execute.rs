@@ -85,5 +85,8 @@ fn execute_should_work() {
         .unwrap();
 
     // Data returned from the `execute` entry-point must not be empty.
-    assert_eq!(response.data, Some("😀".to_string().as_bytes().into()));
+    assert_eq!(
+        response.data,
+        Some(r#"{"smile":"😀"}"#.to_string().as_bytes().into())
+    );
 }
