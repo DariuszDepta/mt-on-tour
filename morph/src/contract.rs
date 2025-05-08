@@ -1,16 +1,70 @@
+use cosmwasm_schema::cw_serde;
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
 
-use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult};
+use crate::msg::MorphExecuteMessage;
+use cosmwasm_std::{
+    to_json_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
+};
+
+#[cw_serde]
+struct MorphedAppius {
+    name: String,
+    height: u64,
+    age: u8,
+}
+
+#[cw_serde]
+struct MorphedMarcus {
+    name: String,
+    age: u8,
+}
+
+#[cw_serde]
+struct MorphedTiberia {
+    name: String,
+}
 
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn instantiate(_deps: DepsMut, _env: Env, _info: MessageInfo, _msg: Empty) -> StdResult<Response> {
+pub fn instantiate(
+    _deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    _msg: Empty,
+) -> StdResult<Response> {
     Ok(Response::default())
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn execute(_deps: DepsMut, _env: Env, _info: MessageInfo, _msg: Empty) -> StdResult<Response> {
-    Ok(Response::default())
+pub fn execute(
+    _deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    msg: MorphExecuteMessage,
+) -> StdResult<Response> {
+    Ok(match msg {
+        MorphExecuteMessage::Appius => {
+            let data = MorphedAppius {
+                name: "Appius".to_string(),
+                height: 192,
+                age: 38,
+            };
+            Response::new().set_data(to_json_binary(&data)?)
+        }
+        MorphExecuteMessage::Marcus => {
+            let data = MorphedMarcus {
+                name: "Marcus".to_string(),
+                age: 24,
+            };
+            Response::new().set_data(to_json_binary(&data)?)
+        }
+        MorphExecuteMessage::Tiberia => {
+            let data = MorphedTiberia {
+                name: "Tiberia".to_string(),
+            };
+            Response::new().set_data(to_json_binary(&data)?)
+        }
+    })
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
