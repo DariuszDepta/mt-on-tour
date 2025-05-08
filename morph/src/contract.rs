@@ -42,29 +42,21 @@ pub fn execute(
     _info: MessageInfo,
     msg: MorphExecuteMessage,
 ) -> StdResult<Response> {
-    Ok(match msg {
-        MorphExecuteMessage::Appius => {
-            let data = MorphedAppius {
-                name: "Appius".to_string(),
-                height: 192,
-                age: 38,
-            };
-            Response::new().set_data(to_json_binary(&data)?)
-        }
-        MorphExecuteMessage::Marcus => {
-            let data = MorphedMarcus {
-                name: "Marcus".to_string(),
-                age: 24,
-            };
-            Response::new().set_data(to_json_binary(&data)?)
-        }
-        MorphExecuteMessage::Tiberia => {
-            let data = MorphedTiberia {
-                name: "Tiberia".to_string(),
-            };
-            Response::new().set_data(to_json_binary(&data)?)
-        }
-    })
+    let data = match msg {
+        MorphExecuteMessage::Appius => to_json_binary(&MorphedAppius {
+            name: "Appius".to_string(),
+            height: 192,
+            age: 38,
+        })?,
+        MorphExecuteMessage::Marcus => to_json_binary(&MorphedMarcus {
+            name: "Marcus".to_string(),
+            age: 24,
+        })?,
+        MorphExecuteMessage::Tiberia => to_json_binary(&MorphedTiberia {
+            name: "Tiberia".to_string(),
+        })?,
+    };
+    Ok(Response::new().set_data(data))
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
