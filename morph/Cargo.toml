@@ -1,5 +1,5 @@
 [package]
-name = "intro"
+name = "morph"
 version = { workspace = true }
 authors = { workspace = true }
 license = { workspace = true }
@@ -10,7 +10,7 @@ publish = { workspace = true }
 crate-type = ["cdylib", "rlib"]
 
 [[bin]]
-name = "schema-intro"
+name = "schema-morph"
 path = "src/bin/schema.rs"
 
 [features]
