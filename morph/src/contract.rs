@@ -55,6 +55,7 @@ pub fn execute(
         MorphExecuteMessage::Tiberia => to_json_binary(&MorphedTiberia {
             name: "Tiberia".to_string(),
         })?,
+        MorphExecuteMessage::Smileus => Binary::from("😀".to_string().as_bytes()),
     };
     Ok(Response::new().set_data(data))
 }

@@ -6,4 +6,5 @@ pub enum MorphExecuteMessage {
     Appius,
     Marcus,
     Tiberia,
+    Smileus,
 }

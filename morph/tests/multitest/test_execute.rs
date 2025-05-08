@@ -1,14 +1,7 @@
 use crate::multitest::intro;
-use cosmwasm_std::{Binary, Empty, HexBinary};
+use cosmwasm_std::Empty;
 use cw_multi_test::{App, Executor};
 use morph::msg::MorphExecuteMessage;
-
-fn eq_binary(expected: &str, actual: Binary) {
-    assert_eq!(
-        Binary::new(HexBinary::from_hex(expected).unwrap().into()),
-        actual
-    );
-}
 
 #[test]
 fn execute_should_work() {
@@ -50,12 +43,9 @@ fn execute_should_work() {
         .unwrap();
 
     // Data returned from the `execute` entry-point must not be empty.
-    assert!(response.data.is_some());
-
-    // Check the binary content.
-    eq_binary(
-        "7b226e616d65223a22417070697573222c22686569676874223a3139322c22616765223a33387d",
-        response.data.unwrap(),
+    assert_eq!(
+        response.data,
+        Some(br#"{"name":"Appius","height":192,"age":38}"#.into())
     );
 
     // Invoke the `execute` entry-point of the contract with `MorphExecuteMessage::Marcus`.
@@ -69,30 +59,31 @@ fn execute_should_work() {
         .unwrap();
 
     // Data returned from the `execute` entry-point must not be empty.
-    assert!(response.data.is_some());
-
-    // Check the binary content.
-    eq_binary(
-        "7b226e616d65223a224d6172637573222c22616765223a32347d",
-        response.data.unwrap(),
-    );
+    assert_eq!(response.data, Some(br#"{"name":"Marcus","age":24}"#.into()));
 
     // Invoke the `execute` entry-point of the contract with `MorphExecuteMessage::Tiberia`.
     let response = app
         .execute_contract(
-            sender_addr,
-            contract_addr,
+            sender_addr.clone(),
+            contract_addr.clone(),
             &MorphExecuteMessage::Tiberia {},
             &[],
         )
         .unwrap();
 
     // Data returned from the `execute` entry-point must not be empty.
-    assert!(response.data.is_some());
+    assert_eq!(response.data, Some(br#"{"name":"Tiberia"}"#.into()));
 
-    // Check the binary content.
-    eq_binary(
-        "7b226e616d65223a2254696265726961227d",
-        response.data.unwrap(),
-    );
+    // Invoke the `execute` entry-point of the contract with `MorphExecuteMessage::Smileus`.
+    let response = app
+        .execute_contract(
+            sender_addr,
+            contract_addr,
+            &MorphExecuteMessage::Smileus {},
+            &[],
+        )
+        .unwrap();
+
+    // Data returned from the `execute` entry-point must not be empty.
+    assert_eq!(response.data, Some("😀".to_string().as_bytes().into()));
 }

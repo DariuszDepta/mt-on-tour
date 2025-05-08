@@ -10,9 +10,12 @@ members = [
     "counter",
     "counter-sv",
     "intro",
-    "morph",
     "nayel",
     "responder",
+]
+
+exclude = [
+    "morph"
 ]
 
 [workspace.package]
