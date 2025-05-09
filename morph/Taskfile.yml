@@ -13,6 +13,8 @@ tasks:
     desc: Deletes all compilation artifacts
     cmds:
       - cmd: cargo clean
+      - cmd: rm -rf ./schema
+      - cmd: rm -rf ./artifacts
 
   clippy:
     desc: Runs clippy for all targets
@@ -49,10 +51,7 @@ tasks:
   schema:
     desc: Builds the schema
     cmds:
-      - cmd: mkdir -p ./schemas
-      - cmd: cargo run --bin schema-intro && mv ./schema ./schemas/schema-intro
-      - cmd: cargo run --bin schema-counter && mv ./schema ./schemas/schema-counter
-      - cmd: cargo run --bin schema-counter-sv && mv ./schema ./schemas/schema-counter-sv
+      - cmd: cargo run --bin schema
 
   test:
     desc: Runs all tests in debug mode
