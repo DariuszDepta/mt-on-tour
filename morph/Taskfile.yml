@@ -66,4 +66,4 @@ tasks:
   wasm:
     desc: Builds the Wasm binary
     cmds:
-      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown
