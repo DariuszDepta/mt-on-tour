@@ -1,0 +1,70 @@
+version: '3'
+
+silent: true
+
+tasks:
+
+  build:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build
+
+  clean:
+    desc: Deletes all compilation artifacts
+    cmds:
+      - cmd: cargo clean
+
+  clippy:
+    desc: Runs clippy for all targets
+    cmds:
+      - cmd: cargo +stable clippy --all-targets
+
+  cov:
+    desc: Generates code coverage
+    cmds:
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --html
+      - cmd: echo "Open report file:///$(pwd)/target/llvm-cov/html/index.html"
+
+  cov-open:
+    desc: Generates code coverage and opens report in browser
+    cmds:
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --open
+
+  cov-mt:
+    desc: Generates code coverage for MultiTest
+    cmds:
+      - cmd: cargo llvm-cov --no-cfg-coverage --dep-coverage cw-multi-test --html
+      - cmd: echo "Open report file:///$(pwd)/target/llvm-cov/html/index.html"
+
+  cov-mt-open:
+    desc: Generates code coverage for MultiTest and opens report in browser
+    cmds:
+      - cmd: cargo llvm-cov --no-cfg-coverage --dep-coverage cw-multi-test --open
+
+  fmt:
+    desc: Formats the code
+    cmds:
+      - cmd: cargo +stable fmt
+
+  schema:
+    desc: Builds the schema
+    cmds:
+      - cmd: mkdir -p ./schemas
+      - cmd: cargo run --bin schema-intro && mv ./schema ./schemas/schema-intro
+      - cmd: cargo run --bin schema-counter && mv ./schema ./schemas/schema-counter
+      - cmd: cargo run --bin schema-counter-sv && mv ./schema ./schemas/schema-counter-sv
+
+  test:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable test
+
+  testn:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable nextest run
+
+  wasm:
+    desc: Builds the Wasm binary
+    cmds:
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
