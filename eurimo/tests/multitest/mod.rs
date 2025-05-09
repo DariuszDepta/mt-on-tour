@@ -6,20 +6,20 @@ mod test_query;
 use cosmwasm_std::{Checksum, Empty};
 use cw_multi_test::{Contract, ContractWrapper};
 
-/// Checksum calculated from `intro.wasm` binary.
+/// Checksum calculated from WASM binary.
 ///
 /// ```shell
-/// $ cargo build --release --lib --target wasm32-unknown-unknown
-/// $ sha256sum ../target/wasm32-unknown-unknown/release/intro.wasm | awk '{print toupper($1)}'
+/// $ task wasm-opt
+/// $ cat ./artifacts/checksums.txt
 /// ```
-const CHECKSUM: &str = "E3523348FF69519F913FBB12DC5660161ECB2978E603E909925DD87ABCC6A229";
+const CHECKSUM: &str = "b675b9d5b99520cdf1424b7f80344076467ad71cf4cf59f37190562cd1ea1e01";
 
 pub fn intro() -> Box<dyn Contract<Empty>> {
     Box::new(
         ContractWrapper::new_with_empty(
-            intro::contract::execute,
-            intro::contract::instantiate,
-            intro::contract::query,
+            eurimo::contract::execute,
+            eurimo::contract::instantiate,
+            eurimo::contract::query,
         )
         .with_checksum(Checksum::from_hex(CHECKSUM).unwrap()),
     )
