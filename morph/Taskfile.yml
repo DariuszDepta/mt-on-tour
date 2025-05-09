@@ -66,4 +66,9 @@ tasks:
   wasm:
     desc: Builds the Wasm binary
     cmds:
-      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+
+  wasm-opt:
+    desc: Builds the Wasm binary using optimizer
+    cmds:
+      - cmd: docker run --rm -v "$(pwd)":/code --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/optimizer:0.16.1

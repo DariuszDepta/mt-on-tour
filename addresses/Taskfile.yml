@@ -46,14 +46,6 @@ tasks:
     cmds:
       - cmd: cargo +stable fmt
 
-  schema:
-    desc: Builds the schema
-    cmds:
-      - cmd: mkdir -p ./schemas
-      - cmd: cargo run --bin schema-intro && mv ./schema ./schemas/schema-intro
-      - cmd: cargo run --bin schema-counter && mv ./schema ./schemas/schema-counter
-      - cmd: cargo run --bin schema-counter-sv && mv ./schema ./schemas/schema-counter-sv
-
   test:
     desc: Runs all tests in debug mode
     cmds:
@@ -68,8 +60,3 @@ tasks:
     desc: Builds the Wasm binary
     cmds:
       - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
-
-  wasm-debug:
-    desc: Builds the Wasm binary in debug mode
-    cmds:
-      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --target wasm32-unknown-unknown --lib
