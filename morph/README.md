@@ -1,12 +1,24 @@
 # Morph smart contract
 
-#### Build the Wasm contract
+#### Build the Wasm contract (not optimized)
+
+```shell
+$ cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+```
+
+#### Store the contract code on chain (not optimized)
+
+```shell
+$ wasmd tx wasm store ./target/wasm32-unknown-unknown/release/morph.wasm --from alice --chain-id wte --gas 10000000 --keyring-backend=test -o json -y | jq
+```
+
+#### Build the Wasm contract with optimizer
 
 ```shell
 $ docker run --rm -v "$(pwd)":/code --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/optimizer:0.16.1
 ```
 
-#### Store the contract code on chain
+#### Store the contract code on chain (built with optimizer)
 
 ```shell
 $ wasmd tx wasm store ./artifacts/morph.wasm --from alice --chain-id wte --gas 10000000 --keyring-backend=test -o json -y | jq
