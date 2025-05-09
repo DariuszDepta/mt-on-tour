@@ -1,0 +1,75 @@
+version: '3'
+
+silent: true
+
+tasks:
+
+  build:
+    desc: Builds in debug mode
+    cmds:
+      - cmd: cargo +stable build
+
+  clean:
+    desc: Deletes all compilation artifacts
+    cmds:
+      - cmd: cargo clean
+      - cmd: rm -rf ./schema
+      - cmd: rm -rf ./artifacts
+
+  clippy:
+    desc: Runs clippy for all targets
+    cmds:
+      - cmd: cargo +stable clippy --all-targets
+
+  cov:
+    desc: Generates code coverage
+    cmds:
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --html
+      - cmd: echo "Open report file:///$(pwd)/target/llvm-cov/html/index.html"
+
+  cov-open:
+    desc: Generates code coverage and opens report in browser
+    cmds:
+      - cmd: cargo +stable llvm-cov --no-cfg-coverage --open
+
+  cov-mt:
+    desc: Generates code coverage for MultiTest
+    cmds:
+      - cmd: cargo llvm-cov --no-cfg-coverage --dep-coverage cw-multi-test --html
+      - cmd: echo "Open report file:///$(pwd)/target/llvm-cov/html/index.html"
+
+  cov-mt-open:
+    desc: Generates code coverage for MultiTest and opens report in browser
+    cmds:
+      - cmd: cargo llvm-cov --no-cfg-coverage --dep-coverage cw-multi-test --open
+
+  fmt:
+    desc: Formats the code
+    cmds:
+      - cmd: cargo +stable fmt
+
+  schema:
+    desc: Builds the schema
+    cmds:
+      - cmd: cargo run --bin schema
+
+  test:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable test
+
+  testn:
+    desc: Runs all tests in debug mode
+    cmds:
+      - cmd: cargo +stable nextest run
+
+  wasm:
+    desc: Builds the Wasm binary
+    cmds:
+      - cmd: cargo +1.81.0-x86_64-unknown-linux-gnu build --release --target wasm32-unknown-unknown --lib
+
+  wasm-opt:
+    desc: Builds the Wasm binary using optimizer
+    cmds:
+      - cmd: docker run --rm -v "$(pwd)":/code --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry cosmwasm/optimizer:0.16.1
+      - cmd: sudo chown -R $USER:$USER ./artifacts
