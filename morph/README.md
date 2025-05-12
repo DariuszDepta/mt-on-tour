@@ -44,6 +44,10 @@ Output:
 }
 ```
 
+```shell
+$ wasmd tx wasm store ./artifacts/morph.wasm --from alice --gas 10000000 --chain-id testing -o json --node $NODE1 -y | jq
+```
+
 Check the transaction if needed:
 
 ```shell
