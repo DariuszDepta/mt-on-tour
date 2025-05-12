@@ -108,13 +108,25 @@ REPOSITORY                               TAG          IMAGE ID       CREATED    
 wasmd                                    3.0.0-ibc2   abe4f2179d93   2 hours ago     184MB
 ```
 
+Now the first container can be started this way:
+
 ```shell
 $ docker run --rm -it -p 36657:26657 wasmd:3.0.0-ibc2 /bin/sh
-/opt # ./setup_and_run.sh
 ```
+
+> Note that the port `26657` is mapped to `36657` for the first blockchain node.
+
+Initialize node 1 (inside the running Docker container):
+
+```shell
+/opt # ./setup_and_run.sh alice bob
+```
+
+Two additional keys will be created, named `alice` and `bob`.
 
 ```shell
 $ docker run --rm -it -p 46657:26657 wasmd:3.0.0-ibc2 /bin/sh
+/opt # ./setup_and_run.sh
 /opt # ./setup_and_run.sh
 ```
 
