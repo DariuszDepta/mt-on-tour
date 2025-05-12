@@ -635,3 +635,423 @@ Ok, all set!
 
 ### Use the `counter` contract on the second node
 
+Store the contract:
+
+```shell
+$ wasmd tx wasm store counter.wasm --from dave --chain-id testing --gas 10000000 --node $NODE2 -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "8E90722991B30A5E821EBB13907BA576AE5C7DF4E237D3282245AE0BC665A32E",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
+```
+
+Check the transaction:
+
+```shell
+$ wasmd query tx 8E90722991B30A5E821EBB13907BA576AE5C7DF4E237D3282245AE0BC665A32E --node $NODE2 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "height": "547",
+  "txhash": "8E90722991B30A5E821EBB13907BA576AE5C7DF4E237D3282245AE0BC665A32E",
+  "codespace": "",
+  "code": 0,
+  "data": "124E0A262F636F736D7761736D2E7761736D2E76312E4D736753746F7265436F6465526573706F6E7365122408011220D978A2F76CE30886E844881C575AEC85599A2029A0683DF0A6DC963B34037B63",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "10000000",
+  "gas_used": "1306539",
+  "tx": {
+    "@type": "/cosmos.tx.v1beta1.Tx",
+    "body": {
+      "messages": [
+        {
+          "@type": "/cosmwasm.wasm.v1.MsgStoreCode",
+          "sender": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "wasm_byte_code": "omitted",
+          "instantiate_permission": null
+        }
+      ],
+      "memo": "",
+      "timeout_height": "0",
+      "extension_options": [],
+      "non_critical_extension_options": []
+    },
+    "auth_info": {
+      "signer_infos": [
+        {
+          "public_key": {
+            "@type": "/cosmos.crypto.secp256k1.PubKey",
+            "key": "A3x/iaSkJJQcxgDA55qj+Enkf0ao27DOclOQLt8jTXoM"
+          },
+          "mode_info": {
+            "single": {
+              "mode": "SIGN_MODE_DIRECT"
+            }
+          },
+          "sequence": "0"
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas_limit": "10000000",
+        "payer": "",
+        "granter": ""
+      },
+      "tip": null
+    },
+    "signatures": [
+      "Nb9cQkDINVhfhHgcdInt9mnptnHDFunreS769oSXk3AaZjO0PeuTlCabtNDSnch3C49v66MU8hAMnYNVkcE5pw=="
+    ]
+  },
+  "timestamp": "2025-05-12T14:23:08Z",
+  "events": [
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "fee",
+          "value": "",
+          "index": true
+        },
+        {
+          "key": "fee_payer",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "acc_seq",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw/0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "signature",
+          "value": "Nb9cQkDINVhfhHgcdInt9mnptnHDFunreS769oSXk3AaZjO0PeuTlCabtNDSnch3C49v66MU8hAMnYNVkcE5pw==",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "action",
+          "value": "/cosmwasm.wasm.v1.MsgStoreCode",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "index": true
+        },
+        {
+          "key": "module",
+          "value": "wasm",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "store_code",
+      "attributes": [
+        {
+          "key": "code_checksum",
+          "value": "d978a2f76ce30886e844881c575aec85599a2029a0683df0a6dc963b34037b63",
+          "index": true
+        },
+        {
+          "key": "code_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+Check if the contract code was properly stored on chain:
+
+```shell
+$ wasmd query wasm list-code --node $NODE2 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "code_infos": [
+    {
+      "code_id": "1",
+      "creator": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+      "data_hash": "D978A2F76CE30886E844881C575AEC85599A2029A0683DF0A6DC963B34037B63",
+      "instantiate_permission": {
+        "permission": "Everybody",
+        "addresses": []
+      }
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
+```
+
+Instantiate a contract with initial value set to 20:
+
+```shell
+$ wasmd tx wasm instantiate 1 '{"set":20}' --label my-counter-1 --no-admin --from dave --chain-id testing --node $NODE2 -o json -y | jq
+```
+
+Output:
+
+```json
+{
+  "height": "0",
+  "txhash": "CCA61EB07ACDAA2166047768498F9B883A180D772AABC919FEDF4DAB0A800B96",
+  "codespace": "",
+  "code": 0,
+  "data": "",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "0",
+  "gas_used": "0",
+  "tx": null,
+  "timestamp": "",
+  "events": []
+}
+```
+
+Check the transaction:
+
+```shell
+$ wasmd query tx CCA61EB07ACDAA2166047768498F9B883A180D772AABC919FEDF4DAB0A800B96 --node $NODE2 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "height": "571",
+  "txhash": "CCA61EB07ACDAA2166047768498F9B883A180D772AABC919FEDF4DAB0A800B96",
+  "codespace": "",
+  "code": 0,
+  "data": "12750A302F636F736D7761736D2E7761736D2E76312E4D7367496E7374616E7469617465436F6E7472616374526573706F6E736512410A3F7761736D3134686A32746176713866706573647778786375343472747933686839307668756A7276636D73746C347A723374786D6676773973307068673464",
+  "raw_log": "",
+  "logs": [],
+  "info": "",
+  "gas_wanted": "200000",
+  "gas_used": "137270",
+  "tx": {
+    "@type": "/cosmos.tx.v1beta1.Tx",
+    "body": {
+      "messages": [
+        {
+          "@type": "/cosmwasm.wasm.v1.MsgInstantiateContract",
+          "sender": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "admin": "",
+          "code_id": "1",
+          "label": "my-counter-1",
+          "msg": {
+            "set": 20
+          },
+          "funds": []
+        }
+      ],
+      "memo": "",
+      "timeout_height": "0",
+      "extension_options": [],
+      "non_critical_extension_options": []
+    },
+    "auth_info": {
+      "signer_infos": [
+        {
+          "public_key": {
+            "@type": "/cosmos.crypto.secp256k1.PubKey",
+            "key": "A3x/iaSkJJQcxgDA55qj+Enkf0ao27DOclOQLt8jTXoM"
+          },
+          "mode_info": {
+            "single": {
+              "mode": "SIGN_MODE_DIRECT"
+            }
+          },
+          "sequence": "1"
+        }
+      ],
+      "fee": {
+        "amount": [],
+        "gas_limit": "200000",
+        "payer": "",
+        "granter": ""
+      },
+      "tip": null
+    },
+    "signatures": [
+      "JpJGrE8Q1bSgMeXmCJ5Bhqx9rdG8nVEkMsm4NJZmMYVVKGj0QDp7Z7ckSMgCM06A0y3igXdM4FeXckEiHWDzhg=="
+    ]
+  },
+  "timestamp": "2025-05-12T14:25:09Z",
+  "events": [
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "fee",
+          "value": "",
+          "index": true
+        },
+        {
+          "key": "fee_payer",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "acc_seq",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw/1",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "tx",
+      "attributes": [
+        {
+          "key": "signature",
+          "value": "JpJGrE8Q1bSgMeXmCJ5Bhqx9rdG8nVEkMsm4NJZmMYVVKGj0QDp7Z7ckSMgCM06A0y3igXdM4FeXckEiHWDzhg==",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "action",
+          "value": "/cosmwasm.wasm.v1.MsgInstantiateContract",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw",
+          "index": true
+        },
+        {
+          "key": "module",
+          "value": "wasm",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "instantiate",
+      "attributes": [
+        {
+          "key": "_contract_address",
+          "value": "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d",
+          "index": true
+        },
+        {
+          "key": "code_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "0",
+          "index": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+Check if the contract was properly instantiated:
+
+```shell
+$ wasmd query wasm list-contract-by-code 1 --node $NODE2 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "contracts": [
+    "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d"
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
+```
+
+Query the current value of the counter contract (should be 20):
+
+```shell
+$ wasmd query wasm contract-state smart wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s0phg4d '"value"' --node $NODE2 -o json | jq
+```
+
+Output:
+
+```json
+{
+  "data": {
+    "value": 20
+  }
+}
+```
+
+Ok, all set!
