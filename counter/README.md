@@ -30,7 +30,7 @@ Output:
 
 Check the transaction details:
 
-```hell
+```shell
 $ wasmd query tx C85F6130FF5B9ED97D33808D41FB66DA46941B1E3CFCA626DC23FD10BC3BB944 -o json | jq
 ```
 
