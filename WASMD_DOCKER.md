@@ -2,6 +2,8 @@
 
 > Last update: `2025-05-12`
 
+## Building the Docker image
+
 In [wasmd](https://github.com/CosmWasm/wasmd) repository,
 there is a [Dockerfile](https://github.com/CosmWasm/wasmd/blob/main/Dockerfile) shown below:
 
@@ -108,6 +110,8 @@ REPOSITORY                               TAG          IMAGE ID       CREATED    
 wasmd                                    3.0.0-ibc2   abe4f2179d93   2 hours ago     184MB
 ```
 
+## Running containers with blockchain nodes
+
 Now the first container can be started this way:
 
 ```shell
@@ -144,14 +148,27 @@ The same way other nodes can be created in separate containers.
 Remember to map `26657` port to some other non-conflicting port in the host machine.
 To be able to use keys of all running nodes, keep the key names unique.
 
+## Preparing node addresses
+
+To be able to interact with all nodes in a simple manner, let's define local variables:
+
 ```shell
-$ wasmd query wasm list-code -o json --node "tcp://0.0.0.0:36657" | jq
 $ NODE1=tcp://0.0.0.0:36657
+$ NODE2=tcp://0.0.0.0:46657
+```
+
+> Define separate variable for each node with mapped `26657` port.
+
+## Interact with the nodes
+
+There should be no contact code on node 1:
+
+```shell
 $ wasmd query wasm list-code -o json --node $NODE1 | jq
 ```
 
+There should be no contact code on node 2:
+
 ```shell
-$ wasmd query wasm list-code -o json --node "tcp://0.0.0.0:46657" | jq
-$ NODE2=tcp://0.0.0.0:46657
 $ wasmd query wasm list-code -o json --node $NODE2 | jq
 ```
