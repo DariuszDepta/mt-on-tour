@@ -172,3 +172,35 @@ There should be no contact code on node 2:
 ```shell
 $ wasmd query wasm list-code -o json --node $NODE2 | jq
 ```
+
+## Import keys locally from running nodes
+
+Using mnemonic phrases for all accounts created in all nodes, import them locally on the host machine:
+
+```shell
+$ wasmd keys add alice --recover
+$ wasmd keys add bob --recover
+$ wasmd keys add dave --recove
+$ wasmd keys add edwin --recove
+```
+
+Let's check local keys:
+
+```text
+- address: wasm1z8wt5d4r925vjxy23fufg6ru9jlj0ncphnhkty
+  name: alice
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"Ar508Y5H8NpGAj4HbujOj6HOlrsei0Q+iS3i5e7V2mt9"}'
+  type: local
+- address: wasm1rq3vc2jgg0ra7jqa5cvqtp8rvdeur20r2ugkrv
+  name: bob
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AwarVLw20TxjLIPLXn4aR56TyrZWdJ03flhtV0ctv+qq"}'
+  type: local
+- address: wasm1dx6plv66g9hcgrx8yz53vke4ae0f880vjmu7jw
+  name: dave
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A3x/iaSkJJQcxgDA55qj+Enkf0ao27DOclOQLt8jTXoM"}'
+  type: local
+- address: wasm13d5nz5kl2j6q2rcdaxj9q0daae3tg4k9k833hr
+  name: edwin
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AhrNSSt7PiZpF5MZZgW/5evY9e2OjpFWDUPOgSRxdVIn"}'
+  type: local
+```
