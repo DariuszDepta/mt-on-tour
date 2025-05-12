@@ -116,7 +116,7 @@ $ docker run --rm -it -p 36657:26657 wasmd:3.0.0-ibc2 /bin/sh
 
 > Note that the port `26657` is mapped to `36657` for the first blockchain node.
 
-Initialize node 1 (inside the running Docker container):
+Initialize **node 1** (inside the running Docker container):
 
 ```shell
 /opt # ./setup_and_run.sh alice bob
@@ -124,11 +124,25 @@ Initialize node 1 (inside the running Docker container):
 
 Two additional keys will be created, named `alice` and `bob`.
 
+In another terminal create the second container:
+
 ```shell
 $ docker run --rm -it -p 46657:26657 wasmd:3.0.0-ibc2 /bin/sh
-/opt # ./setup_and_run.sh
-/opt # ./setup_and_run.sh
 ```
+
+> Note that the port `26657` is mapped to `46657` for the second blockchain node.
+
+Initialize **node 2** (inside the running Docker container):
+
+```shell
+/opt # ./setup_and_run.sh dave edwin
+```
+
+Two additional keys will be created, named `dave` and `edwin`.
+
+The same way other nodes can be created in separate containers.
+Remember to map `26657` port to some other non-conflicting port in the host machine.
+To be able to use keys of all running nodes, keep the key names unique.
 
 ```shell
 $ wasmd query wasm list-code -o json --node "tcp://0.0.0.0:36657" | jq
