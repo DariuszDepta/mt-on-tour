@@ -1,12 +1,12 @@
 use cosmwasm_std::Empty;
-use counter::msg::{CounterExecMsg, CounterInitMsg, CounterQueryMsg, CounterResponse};
+use mtot_counter::msg::{CounterExecMsg, CounterInitMsg, CounterQueryMsg, CounterResponse};
 use cw_multi_test::{App, Contract, ContractWrapper, Executor, IntoAddr};
 
 fn counter_contract() -> Box<dyn Contract<Empty>> {
     Box::new(ContractWrapper::new_with_empty(
-        counter::contract::execute,
-        counter::contract::instantiate,
-        counter::contract::query,
+        mtot_counter::contract::execute,
+        mtot_counter::contract::instantiate,
+        mtot_counter::contract::query,
     ))
 }
 

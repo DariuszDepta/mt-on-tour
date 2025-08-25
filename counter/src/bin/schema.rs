@@ -1,6 +1,6 @@
 use cosmwasm_schema::write_api;
 
-use counter::msg::{CounterExecMsg, CounterInitMsg, CounterQueryMsg};
+use mtot_counter::msg::{CounterExecMsg, CounterInitMsg, CounterQueryMsg};
 
 fn main() {
     write_api! {

@@ -1,5 +1,5 @@
 [package]
-name = "mtot-counter"
+name = "mtot-stargate"
 version = "1.0.0"
 authors = ["Dariusz Depta <depta@engos.de>"]
 license = "MIT OR Apache-2.0"
@@ -17,11 +17,12 @@ path = "src/bin/schema.rs"
 library = []
 
 [dependencies]
-cosmwasm-schema = "2"
-cosmwasm-std = { version = "2", features = ["cosmwasm_2_2"] }
-cw-storage-plus =  "2"
+cosmwasm-schema = "3.0.1"
+cosmwasm-std = { version = "3.0.1", features = ["cosmwasm_3_0"] }
+cw-storage-plus =  "3.0.0"
 schemars = "0.8.22"
 serde = "1.0.219"
+ed25519-zebra = "=4.0.3"
 
 [dev-dependencies]
-cw-multi-test = { version = "2", features = ["staking", "stargate", "cosmwasm_2_2"] }
+cw-multi-test = { version = "3.0.1", features = ["staking", "stargate", "cosmwasm_3_0"] }

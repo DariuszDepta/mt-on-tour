@@ -1,5 +1,5 @@
 .idea/
 target/
-schema
-schemas
-artifacts
+schema/
+schemas/
+artifacts/
