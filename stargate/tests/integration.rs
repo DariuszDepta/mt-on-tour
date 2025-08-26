@@ -1,13 +1,18 @@
 use cosmwasm_std::{
-    Addr, AnyMsg, Api, Binary, BlockInfo, CosmosMsg, CustomMsg, CustomQuery, Empty, GrpcQuery,
-    Querier, QueryRequest, StdError, StdResult, Storage,
+    Addr, AnyMsg, Api, Binary, BlockInfo, CustomMsg, CustomQuery, Empty, GrpcQuery, MsgResponse,
+    Querier, Storage, SubMsgResponse,
 };
-use cw_multi_test::{no_init, AppBuilder, AppResponse, CosmosRouter, Executor, Stargate};
+use cw_multi_test::error::{bail, AnyResult};
+use cw_multi_test::{
+    no_init, AppBuilder, AppResponse, Contract, ContractWrapper, CosmosRouter, Executor, IntoAddr,
+    Stargate,
+};
+use osmosis_std::types::osmosis::tokenfactory::v1beta1::{MsgCreateDenom, MsgCreateDenomResponse};
+use prost::Message;
 use serde::de::DeserializeOwned;
 
 const MSG_STARGATE_EXECUTE: &str = "stargate execute called";
 const MSG_STARGATE_QUERY: &str = "stargate query called";
-const MSG_ANY_EXECUTE: &str = "any execute called";
 const MSG_GRPC_QUERY: &str = "grpc query called";
 
 struct StargateKeeper;
@@ -22,12 +27,12 @@ impl Stargate for StargateKeeper {
         _sender: Addr,
         _type_url: String,
         _value: Binary,
-    ) -> StdResult<AppResponse>
+    ) -> AnyResult<AppResponse>
     where
         ExecC: CustomMsg + DeserializeOwned + 'static,
         QueryC: CustomQuery + DeserializeOwned + 'static,
     {
-        Err(StdError::msg(MSG_STARGATE_EXECUTE))
+        bail!(MSG_STARGATE_EXECUTE)
     }
 
     fn query_stargate(
@@ -38,8 +43,8 @@ impl Stargate for StargateKeeper {
         _block: &BlockInfo,
         _path: String,
         _data: Binary,
-    ) -> StdResult<Binary> {
-        Err(StdError::msg(MSG_STARGATE_QUERY))
+    ) -> AnyResult<Binary> {
+        bail!(MSG_STARGATE_QUERY)
     }
 
     fn execute_any<ExecC, QueryC>(
@@ -49,13 +54,31 @@ impl Stargate for StargateKeeper {
         _router: &dyn CosmosRouter<ExecC = ExecC, QueryC = QueryC>,
         _block: &BlockInfo,
         _sender: Addr,
-        _msg: AnyMsg,
-    ) -> StdResult<AppResponse>
+        msg: AnyMsg,
+    ) -> AnyResult<AppResponse>
     where
         ExecC: CustomMsg + DeserializeOwned + 'static,
         QueryC: CustomQuery + DeserializeOwned + 'static,
     {
-        Err(StdError::msg(MSG_ANY_EXECUTE))
+        let message = MsgCreateDenom::decode(msg.value.as_slice())?;
+        println!("type-url = {}", msg.type_url);
+        println!("  sender = {}", message.sender);
+        println!("subdenom = {}", message.subdenom);
+        // Do something with the received message (like the chain does) and prepare the response.
+        let response = MsgCreateDenomResponse {
+            new_token_denom: "new-token-denom".to_string(),
+        };
+        let msg_response = MsgResponse {
+            type_url: MsgCreateDenomResponse::TYPE_URL.to_string(),
+            value: Binary::from(response.encode_to_vec()),
+        };
+        let sub_response = SubMsgResponse {
+            events: vec![],
+            #[allow(deprecated)]
+            data: None,
+            msg_responses: vec![msg_response],
+        };
+        Ok(sub_response.into())
     }
 
     fn query_grpc(
@@ -65,40 +88,45 @@ impl Stargate for StargateKeeper {
         _querier: &dyn Querier,
         _block: &BlockInfo,
         _request: GrpcQuery,
-    ) -> StdResult<Binary> {
-        Err(StdError::msg(MSG_GRPC_QUERY))
+    ) -> AnyResult<Binary> {
+        bail!(MSG_GRPC_QUERY)
     }
 }
 
+fn the_contract() -> Box<dyn Contract<Empty>> {
+    Box::new(
+        ContractWrapper::new_with_empty(
+            mtot_stargate::contract::execute,
+            mtot_stargate::contract::instantiate,
+            mtot_stargate::contract::query,
+        )
+        .with_reply(mtot_stargate::contract::reply),
+    )
+}
+
 #[test]
-fn building_app_with_custom_any_grpc_should_work() {
+fn execute_should_work() {
     // Build the chain simulator with custom stargate keeper.
     let mut app = AppBuilder::default()
         .with_stargate(StargateKeeper)
         .build(no_init);
 
-    // Prepare user addresses.
-    let sender_addr = app.api().addr_make("sender");
+    let code_id = app.store_code(the_contract());
 
-    // Executing `any` message should return an error defined in custom stargate keeper.
-    let msg = CosmosMsg::Any(AnyMsg {
-        type_url: "test".to_string(),
-        value: Default::default(),
-    });
-    assert_eq!(
-        format!("kind: Other, error: {MSG_ANY_EXECUTE}"),
-        app.execute(sender_addr, msg).unwrap_err().to_string(),
-    );
+    let sender = "sender".into_addr();
 
-    // Executing `grpc` query should return an error defined in custom stargate keeper.
-    let request: QueryRequest<Empty> = QueryRequest::Grpc(GrpcQuery {
-        path: "test".to_string(),
-        data: Default::default(),
-    });
-    assert!(app
-        .wrap()
-        .query::<Empty>(&request)
-        .unwrap_err()
-        .to_string()
-        .ends_with(MSG_GRPC_QUERY));
+    let contract_addr = app
+        .instantiate_contract(
+            code_id,
+            sender.clone(),
+            &Empty {},
+            &[],
+            "the-contract",
+            None,
+        )
+        .unwrap();
+
+    // Execute empty message to trigger processing Any message.
+    app.execute_contract(sender, contract_addr.clone(), &Empty {}, &[])
+        .unwrap();
 }
