@@ -27,4 +27,4 @@ osmosis-std = { version = "=0.27.0" }
 prost = "=0.13.3"
 
 [dev-dependencies]
-cw-multi-test = { path = "../../../CosmWasm/cw-multi-test", features = ["staking", "stargate", "cosmwasm_2_0"] }
+cw-multi-test = { version = "2", features = ["staking", "stargate", "cosmwasm_2_0"] }
