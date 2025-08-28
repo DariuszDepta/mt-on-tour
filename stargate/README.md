@@ -8,7 +8,7 @@ Clone the whole repository containing this project:
 $ git clone https://github.com/DariuszDepta/mt-on-tour.git
 ```
 
-Change the current repository to **stargate**:
+Change the current directory to **stargate**:
 
 ```shell
 $ cd stargate
